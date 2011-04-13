@@ -12,6 +12,7 @@
 
 
 package org.jboleto.exemplos;
+import java.io.File;
 import java.util.Vector;
 import org.jboleto.JBoleto;
 import org.jboleto.JBoletoBean;
@@ -48,9 +49,12 @@ class ExemploBancoBrasil {
         descricoes.add("Sistema - teste ssssde descricao3 - R$ 45,90");
         descricoes.add("Extra - teste de descricao4 - R$ 78,90");
         jBoletoBean.setDescricoes(descricoes);
-        
-        jBoletoBean.setImagemMarketing("/home/fabio/template_logo.png");
-        
+
+        File f = new File("template_bb.png");
+        if(f.exists()) {
+            jBoletoBean.setImagemMarketing(f.getAbsolutePath());
+        }
+                
         jBoletoBean.setDataVencimento("10/06/2006");
         jBoletoBean.setInstrucao1("APOS O VENCIMENTO COBRAR MULTA DE 2%");
         jBoletoBean.setInstrucao2("APOS O VENCIMENTO COBRAR R$ 0,50 POR DIA DE ATRASO");
