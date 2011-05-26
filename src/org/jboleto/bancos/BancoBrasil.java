@@ -24,6 +24,7 @@ public class BancoBrasil implements Banco {
     
     JBoletoBean boleto;
     
+    @Override
     public String getNumero() {
         return "001";
     }
@@ -34,7 +35,6 @@ public class BancoBrasil implements Banco {
     
     private String getCampoLivre() {
         String campo = "000000" + boleto.getNumConvenio() + boleto.getNossoNumero() + boleto.getCarteira();
-        
         return campo;
     }
     
@@ -94,8 +94,25 @@ public class BancoBrasil implements Banco {
      * Recupera a agencia / codigo cedente no padrao especificado pelo banco
      * @author Gladyston Batista/Eac Software
      */
+    @Override
     public String getAgenciaCodCedenteFormatted() {
-        return boleto.getAgencia() + " / " + boleto.getContaCorrente() + "-" + boleto.getDvContaCorrente();
+       String zeros = "000";
+       String adicionar = "";
+       int qtdDigitos = 4;
+       int resto = qtdDigitos - boleto.getAgencia().length();
+       adicionar = zeros.substring(0, resto);
+        if (boleto.getDvAgencia() == null || boleto.getDvAgencia().isEmpty()) {
+            if (boleto.getAgencia().equals("354")) {
+                boleto.setDvAgencia("9");
+            }
+        }
+       
+       /*O dígito da agência está sendo colocado a mão por que no cadastro de agências não se pede o dígito
+       e para não ter que atualizar todas as agências do banco do Brasil sendo que somente a agencia 354,
+       está sendo utilizada, foi feito o código acima. O ideal é possibilitar o cadastro completo da agência
+       cadastrando o número e o dígito (Ex: 354-9)*/
+
+        return adicionar + boleto.getAgencia() + "-" +  boleto.getDvAgencia() + " / " + boleto.getContaCorrente() + "-" + boleto.getDvContaCorrente();
     }
     
     /**
@@ -104,7 +121,7 @@ public class BancoBrasil implements Banco {
      */
     @Override
     public String getNossoNumeroFormatted() {
-        return String.valueOf(Long.parseLong(boleto.getNossoNumero()));
+        return String.valueOf(Long.parseLong(boleto.getNumConvenio() + boleto.getNossoNumero()));
     }
     
 }
