@@ -24,6 +24,7 @@ public class Itau implements Banco {
     
     JBoletoBean boleto;
     
+    @Override
     public String getNumero() {
         return "341";
     }
@@ -81,6 +82,17 @@ public class Itau implements Banco {
         return boleto.getDigitoCampo(campo,1);
     }
 
+    private String getCampo2_157() {
+        String campo = "";
+        if (boleto.getAgencia().length() < 4) {
+            campo = boleto.getNossoNumero().substring(2) + String.valueOf(getDacNossoNumero()) + completaAgencia() +String.valueOf(boleto.getAgencia()).substring(0, 2);
+        } else {
+            campo = boleto.getNossoNumero().substring(2) + String.valueOf(getDacNossoNumero()) + String.valueOf(boleto.getAgencia()).substring(0, 3);
+        }
+
+        return boleto.getDigitoCampo(campo, 1);
+    }
+
     private String getCampo3() {
         String campo = String.valueOf(boleto.getAgencia()).substring(3) + boleto.getContaCorrente() + boleto.getDvContaCorrente() + "000";
         
@@ -95,6 +107,17 @@ public class Itau implements Banco {
         campo += boleto.getModulo10(cdac);
         campo += "0";
         return boleto.getDigitoCampo(campo,1);
+    }
+
+    private String getCampo3_157() {
+        String campo = "";
+        if (boleto.getAgencia().length() < 4) {
+            campo = String.valueOf(boleto.getAgencia()).substring(2) + boleto.getContaCorrente() + boleto.getDvContaCorrente() + "000";
+        } else {
+             campo = String.valueOf(boleto.getAgencia()).substring(3) + boleto.getContaCorrente() + boleto.getDvContaCorrente() + "000";
+        }
+
+        return boleto.getDigitoCampo(campo, 1);
     }
 
     private String getCampo4() {
@@ -129,7 +152,9 @@ public class Itau implements Banco {
                 || "122".equals(carteira)
                 || "142".equals(carteira)
                 || "143".equals(carteira)
-                || "196".equals(carteira)){
+                || "196".equals(carteira)
+                || "109".equals(carteira)
+                || "157".equals(carteira)){
             String codigo = getNumero() + String.valueOf(boleto.getMoeda());
             assert(codigo.length()==4);
             String vencimentoValor = boleto.getFatorVencimento() + boleto.getValorTitulo();
@@ -187,10 +212,35 @@ public class Itau implements Banco {
             sb.append(getCampo5());
             return sb.toString();
         } else {
-            return getCampo1().substring(0,5) + "." + getCampo1().substring(5) + "  " +
-                getCampo2().substring(0,5) + "." + getCampo2().substring(5) + "  " +
-                getCampo3().substring(0,5) + "." + getCampo3().substring(5) + "  " +
-                getCampo4() + "  " + getCampo5();
+            if ("157".equals(carteira) || "109".equals(carteira)) {
+                String campo = getCampo1();
+                StringBuilder sb = new StringBuilder();
+                sb.append(campo.substring(0, 5));
+                sb.append(".");
+                sb.append(campo.substring(5));
+                sb.append(" ");
+
+                campo = getCampo2_157();
+                sb.append(campo.substring(0, 5));
+                sb.append(".");
+                sb.append(campo.substring(5));
+                sb.append(" ");
+
+                campo = getCampo3_157();
+                sb.append(campo.substring(0, 5));
+                sb.append(".");
+                sb.append(campo.substring(5));
+                sb.append(" ");
+
+                sb.append(getCampo4());
+                sb.append(" ");
+                sb.append(getCampo5());
+                return sb.toString();
+            }
+            return getCampo1().substring(0, 5) + "." + getCampo1().substring(5) + "  "
+                    + getCampo2().substring(0, 5) + "." + getCampo2().substring(5) + "  "
+                    + getCampo3().substring(0, 5) + "." + getCampo3().substring(5) + "  "
+                    + getCampo4() + "  " + getCampo5();
         }
         
     }
@@ -199,6 +249,7 @@ public class Itau implements Banco {
      * Recupera a carteira no padrao especificado pelo banco
      * @author Gladyston Batista/Eac Software
      */
+    @Override
     public String getCarteiraFormatted() {
         return boleto.getCarteira();
     }
@@ -207,16 +258,30 @@ public class Itau implements Banco {
      * Recupera a agencia / codigo cedente no padrao especificado pelo banco
      * @author Gladyston Batista/Eac Software
      */
+    @Override
     public String getAgenciaCodCedenteFormatted() {
-        return boleto.getAgencia() + " / " + boleto.getContaCorrente() + "-" + boleto.getDvContaCorrente();
+        return completaAgencia() + boleto.getAgencia() + "/" + boleto.getContaCorrente() + "-" + boleto.getDvContaCorrente();
+    }
+
+    /**
+     * Completa o n° da Agencia se estiver imcompleto (Ex: vem do banco 258 e cod. correto 0258)
+     */
+     public String completaAgencia(){
+        String zeros = "000";
+        String adicionar = "";
+        int qtdDigitos = 4;
+        int resto = qtdDigitos - boleto.getAgencia().length();
+        adicionar = zeros.substring(0, resto);
+        return adicionar;
     }
     
     /**
      * Recupera o nossoNumero no padrao especificado pelo banco
      * @author Gladyston Batista/Eac Software
      */
+    @Override
     public String getNossoNumeroFormatted() {
-        return String.valueOf(Integer.parseInt(boleto.getNossoNumero()));
+        return (boleto.getCarteira() + "/" + boleto.getNossoNumero().substring(0, 8) + "-" + getDacNossoNumero());
     }
     
 }
