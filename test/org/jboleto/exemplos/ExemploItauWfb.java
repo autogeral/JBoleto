@@ -138,7 +138,7 @@ public class ExemploItauWfb {
 
          boleto = e.criaBoleto("11/04/2011", "11/04/2011", "11/05/2011", "GERAL CAR P C I E LTDA", "109", "ADRIANO TADEU DE OLIVEIRA ME", "Av. Juscelino Kubitschek"
                 , "Matadouro", "Braganca Paulista", "SP", "12926-010", "05.596.042/0001-50"
-                , "0278", "91002", "1", "326633239", "6"
+                , "0278", "91002", "1", "32663323", "6"
                 , "697.50");
         jBoleto.addBoleto(boleto, JBoleto.ITAU);
 
