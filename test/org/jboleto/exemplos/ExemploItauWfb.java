@@ -217,7 +217,8 @@ public class ExemploItauWfb {
         jBoletoBean.setCepSacado(sacadoCep);
         jBoletoBean.setCpfSacado(sacadoCpfCnpj);
 
-        jBoletoBean.setLocalPagamento("Pagável em qualquer banco até o vencimento");
+        jBoletoBean.setLocalPagamento("Até o vencimento, preferencialmente no Itaú");
+        jBoletoBean.setLocalPagamento2("Após o vencimento, somente no Itaú");
 
         Vector descricoes = new Vector();
         descricoes.add("Boleto de teste para homologação");
@@ -227,7 +228,7 @@ public class ExemploItauWfb {
 //        jBoletoBean.setImagemMarketing("/home/fabio/template_logo.png");
 
         jBoletoBean.setDataVencimento(dataVencimento);
-        jBoletoBean.setInstrucao1("APOS O VENCIMENTO COBRAR MULTA DE 2%");
+        jBoletoBean.setInstrucao1("NAO RECEBER APOS O QUINTO DIA UTIL");
         jBoletoBean.setInstrucao2("APOS O VENCIMENTO COBRAR R$ 0,50 POR DIA DE ATRASO");
         jBoletoBean.setInstrucao3("");
         jBoletoBean.setInstrucao4("");
