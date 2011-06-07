@@ -35,8 +35,9 @@ public class Itau implements Banco {
     
     public int getDacNossoNumero() {
         int dac = 0;
+
         
-        String campo = String.valueOf(boleto.getAgencia()) + boleto.getContaCorrente() + String.valueOf(boleto.getCarteira()) + boleto.getNossoNumero();
+        String campo =  completaAgencia() + String.valueOf(boleto.getAgencia()) + boleto.getContaCorrente() + String.valueOf(boleto.getCarteira()) + boleto.getNossoNumero();
         
         int multiplicador = 1;
         int multiplicacao = 0;
@@ -63,7 +64,7 @@ public class Itau implements Banco {
             dac = 0;
         
         return dac;
-    }
+    }    
     
     private String getCampo1() {
         String campo = getNumero() + String.valueOf(boleto.getMoeda()) + String.valueOf(boleto.getCarteira()) + boleto.getNossoNumero().substring(0,2);
@@ -147,36 +148,35 @@ public class Itau implements Banco {
     @Override
     public String getCodigoBarras() {
         String carteira = getCarteiraFormatted();
-        if("198".equals(carteira)
+        if ("198".equals(carteira)
                 || "107".equals(carteira)
                 || "122".equals(carteira)
                 || "142".equals(carteira)
                 || "143".equals(carteira)
-                || "196".equals(carteira)
-                || "109".equals(carteira)
-                || "157".equals(carteira)){
+                || "196".equals(carteira)) {
             String codigo = getNumero() + String.valueOf(boleto.getMoeda());
-            assert(codigo.length()==4);
+            assert (codigo.length() == 4);
             String vencimentoValor = boleto.getFatorVencimento() + boleto.getValorTitulo();
-            assert(vencimentoValor.length()==14);
-            String numeros = boleto.getCarteira() +boleto.getNossoNumero()
-                    + boleto.getNoDocumento()+boleto.getCodCliente();
-            assert(numeros.length()==23);
-            String codigoBarras = codigo+getCampo4_198()+vencimentoValor+
-                    boleto.getDigitoCampo(numeros)+"0";
+            assert (vencimentoValor.length() == 14);
+            String numeros = boleto.getCarteira() + boleto.getNossoNumero()
+                    + boleto.getNoDocumento() + boleto.getCodCliente();
+            assert (numeros.length() == 23);
+            String codigoBarras = codigo + getCampo4_198() + vencimentoValor
+                    + boleto.getDigitoCampo(numeros) + "0";
             return codigoBarras;
         } else {
-            return getNumero() + String.valueOf(boleto.getMoeda()) +
-                    String.valueOf(getCampo4()) +
-                    String.valueOf(getCampo5()) +
-                    String.valueOf(boleto.getCarteira()) +
-                    String.valueOf(boleto.getNossoNumero()) +
-                    String.valueOf(getDacNossoNumero()) +
-                    String.valueOf(boleto.getAgencia()) +
-                    boleto.getContaCorrente() +
-                    boleto.getDvContaCorrente() + "000";
+            return getNumero() + String.valueOf(boleto.getMoeda())
+                    + String.valueOf(getCampo4())
+                    + String.valueOf(getCampo5())
+                    + String.valueOf(boleto.getCarteira())
+                    + String.valueOf(boleto.getNossoNumero())
+                    + String.valueOf(getDacNossoNumero())
+                    + String.valueOf(completaAgencia() + boleto.getAgencia())
+                    + boleto.getContaCorrente()
+                    + boleto.getDvContaCorrente() + "000";
+
         }
-        
+
     }
     
     @Override
