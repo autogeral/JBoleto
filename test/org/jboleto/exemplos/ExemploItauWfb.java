@@ -228,6 +228,7 @@ public class ExemploItauWfb {
 //        jBoletoBean.setImagemMarketing("/home/fabio/template_logo.png");
 
         jBoletoBean.setDataVencimento(dataVencimento);
+        jBoletoBean.setMensagemInstrucoes("(Todas as informações deste bloqueto são de exclusiva responsabilidade do cedente)");
         jBoletoBean.setInstrucao1("NAO RECEBER APOS O QUINTO DIA UTIL");
         jBoletoBean.setInstrucao2("APOS O VENCIMENTO COBRAR R$ 0,50 POR DIA DE ATRASO");
         jBoletoBean.setInstrucao3("");

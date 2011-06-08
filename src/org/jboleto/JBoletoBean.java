@@ -49,6 +49,7 @@ public class JBoletoBean {
     private String qtdMoeda;
     private String valorMoeda;
     private String acrescimo;
+    private String mensagemInstrucoes;
     private String instrucao1;
     private String instrucao2;
     private String instrucao3;
@@ -344,6 +345,18 @@ public class JBoletoBean {
      */
     public void setEnderecoSacado(String enderecoSacado) {
         this.enderecoSacado = enderecoSacado;
+    }
+
+    /**
+     * Modifica/atribui uma mensagem ao lado do titulo "Intrucoes"
+     * @return
+     */
+    public String getMensagemInstrucoes() {
+        return mensagemInstrucoes;
+    }
+
+    public void setMensagemInstrucoes(String mensagemInstrucoes) {
+        this.mensagemInstrucoes = mensagemInstrucoes;
     }
 
     /**

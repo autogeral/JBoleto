@@ -254,6 +254,11 @@ public class PDFGenerator {
             
             cb.setTextMatrix(document.left()+430,altura-185);
             cb.showText(formatter.valueToString(new Double(boleto.getValorBoleto())));
+
+            cb.setFontAndSize(bfTextoSimples, 6);
+            cb.setTextMatrix(document.left()+37, altura-197);
+            cb.showText(boleto.getMensagemInstrucoes());
+            cb.setFontAndSize(bfTextoSimples,8);
             
             cb.setTextMatrix(document.left()+5,altura-207);
             cb.showText(boleto.getInstrucao1());
