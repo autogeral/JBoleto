@@ -31,10 +31,41 @@ public class Bradesco implements Banco {
     public Bradesco(JBoletoBean boleto) {
         this.boleto = boleto;
     }
-    
+
+     public int getDacNossoNumero() {
+        int dac = 0;
+        int resto = 0;
+
+
+        String campo =  String.valueOf(boleto.getCarteira()) + boleto.getNossoNumero();
+
+        int multiplicador = 2;
+        int multiplicacao = 0;
+        int soma_campo = 0;
+
+         for (int i = campo.length(); i > 0; i--) {
+             multiplicacao = Integer.parseInt(campo.substring(i-1, i)) * multiplicador;
+            
+             soma_campo = soma_campo + multiplicacao;
+
+             multiplicador = ((multiplicador + 5) % 6) + 2;
+
+         }
+
+        resto = (soma_campo%11);
+         if (resto != 0) {
+             dac = 11 - resto;
+         }else{
+            dac = resto;
+         }
+
+       
+        return dac;
+    }
+     
     private String getCampoLivre() {
         
-        String campo = boleto.getAgencia() + boleto.getCarteira() + boleto.getNossoNumero() + boleto.getContaCorrente() + "0";
+        String campo = boleto.getAgencia() + boleto.getCarteira() + boleto.getNossoNumero() + getContaCorrenteFormatted() + "0";
         
         return campo;
     }
@@ -65,7 +96,7 @@ public class Bradesco implements Banco {
                 boleto.getAgencia() +
                 boleto.getCarteira() +
                 boleto.getNossoNumero() +
-                boleto.getContaCorrente() + "0";
+                getContaCorrenteFormatted() + "0";
         
         return boleto.getDigitoCodigoBarras(campo);
     }
@@ -76,10 +107,16 @@ public class Bradesco implements Banco {
     }
     
     public String getCodigoBarras() {
-        String campo = 	getNumero() + String.valueOf(boleto.getMoeda()) + getCampo4() +
-                boleto.getFatorVencimento() + boleto.getValorTitulo() + boleto.getAgencia() +
-                boleto.getCarteira() + boleto.getNossoNumero() + boleto.getContaCorrente() + "0";
-        
+        String carteira = getCarteiraFormatted();
+        String campo = "";
+        if ("09".equals(carteira)) {
+            campo = getNumero() + String.valueOf(boleto.getMoeda()) + getCampo4()
+                    + boleto.getFatorVencimento() + boleto.getValorTitulo() + getCampoLivre();
+        } else {
+            campo = getNumero() + String.valueOf(boleto.getMoeda()) + getCampo4()
+                    + boleto.getFatorVencimento() + boleto.getValorTitulo() + boleto.getAgencia()
+                    + boleto.getCarteira() + boleto.getNossoNumero() + boleto.getContaCorrente() + "0";
+        }
         return campo;
     }
     
@@ -97,20 +134,41 @@ public class Bradesco implements Banco {
     public String getCarteiraFormatted() {
         return boleto.getCarteira();
     }
+
+    /**
+     * Recupera a conta corrente no padrao especificado pelo banco
+     * @author Murilo Lima
+     */
+    public String getContaCorrenteFormatted() {
+        if (boleto.getContaCorrente().equals("5455")) {
+            return "000" + boleto.getContaCorrente();
+        } else {
+            return boleto.getContaCorrente();
+        }
+    }
+
     
     /**
      * Recupera a agencia / codigo cedente no padrao especificado pelo banco
      * @author Gladyston Batista/Eac Software
      */
     public String getAgenciaCodCedenteFormatted() {
-        return boleto.getAgencia() + " / " + boleto.getContaCorrente() + "-" + boleto.getDvContaCorrente();
+        if (boleto.getAgencia().equals("1724") && boleto.getContaCorrente().equals("5455")) {
+            return boleto.getAgencia() + "-8" +" / " + "000" +boleto.getContaCorrente() + "-" + boleto.getDvContaCorrente();
+        } else {
+            return boleto.getAgencia() + " / " + boleto.getContaCorrente() + "-" + boleto.getDvContaCorrente();
+        }
     }
     
-    /**
-     * Recupera o nossoNumero no padrao especificado pelo banco
-     * @author Gladyston Batista/Eac Software
-     */
     public String getNossoNumeroFormatted() {
-        return String.valueOf(Integer.parseInt(boleto.getNossoNumero()));
+        if (getCarteiraFormatted().equals("09")) {
+            if (getDacNossoNumero() == 10) {
+                return (boleto.getCarteira() + "/" + boleto.getNossoNumero().substring(0, 8) + "-" + "P");
+            } else {
+                return (boleto.getCarteira() + "/" + boleto.getNossoNumero().substring(0, 11) + "-" + getDacNossoNumero());
+            }
+        } else {
+            return String.valueOf(Integer.parseInt(boleto.getNossoNumero()));
+        }
     }
 }
