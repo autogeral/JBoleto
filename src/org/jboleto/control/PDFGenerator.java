@@ -279,7 +279,7 @@ public class PDFGenerator {
             cb.showText(boleto.getCedente());
             
             cb.setTextMatrix(document.left()+30,altura-302);
-            cb.showText(boleto.getNomeSacado() + "     " + boleto.getCpfSacado());
+            cb.showText(JBoletoBean.soPrimeiraMaiuscula(boleto.getNomeSacado()) + "     " + boleto.getCpfSacado());
             
             cb.setTextMatrix(document.left()+30,altura-312);
             cb.showText(boleto.getEnderecoSacado());
