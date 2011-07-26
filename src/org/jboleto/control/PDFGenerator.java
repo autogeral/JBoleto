@@ -179,7 +179,7 @@ public class PDFGenerator {
             cb.showText(boleto.getCedente()); //imprime o cedente
             
             cb.setTextMatrix(document.left()+5,altura);
-            cb.showText(boleto.getNomeSacado());
+            cb.showText(JBoletoBean.soPrimeiraMaiuscula(boleto.getNomeSacado()));
             
             cb.setTextMatrix(document.left()+230,altura);
             cb.showText(boleto.getDataVencimento());
