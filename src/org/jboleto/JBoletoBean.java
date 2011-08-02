@@ -124,6 +124,9 @@ public class JBoletoBean {
         if(string.equals("da") || string.equals("de") || string.equals("do")) {
             return string;
         }
+        if(string.equals("me")){
+            return string.toUpperCase();
+        }
         return (string.length()>2?string.substring(0, 1).toUpperCase()+string.substring(1):string);
     }
 
