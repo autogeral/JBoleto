@@ -72,28 +72,13 @@ public class Itau implements Banco {
     }
     
     private String getCampo2() {
-        String campo = boleto.getNossoNumero().substring(2) + String.valueOf(getDacNossoNumero()) + String.valueOf(boleto.getAgencia()).substring(0,3);
+        String campo = boleto.getNossoNumero().substring(2) + 
+                String.valueOf(getDacNossoNumero()) + 
+                String.valueOf(boleto.getAgencia()).substring(0,3);
         
         return boleto.getDigitoCampo(campo,1);
     }
     
-    private String getCampo2_198() {
-        String campo = boleto.getNossoNumero().substring(2) +
-                boleto.getNoDocumento().substring(0,4);
-        return boleto.getDigitoCampo(campo,1);
-    }
-
-    private String getCampo2_157() {
-        String campo = "";
-        if (boleto.getAgencia().length() < 4) {
-            campo = boleto.getNossoNumero().substring(2) + String.valueOf(getDacNossoNumero()) + completaAgencia() +String.valueOf(boleto.getAgencia()).substring(0, 2);
-        } else {
-            campo = boleto.getNossoNumero().substring(2) + String.valueOf(getDacNossoNumero()) + String.valueOf(boleto.getAgencia()).substring(0, 3);
-        }
-
-        return boleto.getDigitoCampo(campo, 1);
-    }
-
     private String getCampo3() {
         String campo = String.valueOf(boleto.getAgencia()).substring(3) + boleto.getContaCorrente() + boleto.getDvContaCorrente() + "000";
         
@@ -110,34 +95,16 @@ public class Itau implements Banco {
         return boleto.getDigitoCampo(campo,1);
     }
 
-    private String getCampo3_157() {
-        String campo = "";
-        if (boleto.getAgencia().length() < 4) {
-            campo = String.valueOf(boleto.getAgencia()).substring(2) + boleto.getContaCorrente() + boleto.getDvContaCorrente() + "000";
-        } else {
-             campo = String.valueOf(boleto.getAgencia()).substring(3) + boleto.getContaCorrente() + boleto.getDvContaCorrente() + "000";
-        }
-
-        return boleto.getDigitoCampo(campo, 1);
-    }
-
     private String getCampo4() {
-        String campo = 	getNumero() + String.valueOf(boleto.getMoeda()) +
+        String campo = 	getCodigoBarrasSemDac();
+        return boleto.getDigitoCodigoBarras(campo);
+    }
+    
+    private String getCodigoBarrasSemDac() {
+        return getNumero() + String.valueOf(boleto.getMoeda()) +
                 boleto.getFatorVencimento() + boleto.getValorTitulo() + String.valueOf(boleto.getCarteira()) +
                 String.valueOf(boleto.getNossoNumero()) + getDacNossoNumero() +
                 String.valueOf(boleto.getAgencia()) + boleto.getContaCorrente() + boleto.getDvContaCorrente() + "000";
-        
-        return boleto.getDigitoCodigoBarras(campo);
-    }
-
-    private String getCampo4_198() {
-        String codigo = getNumero() + String.valueOf(boleto.getMoeda());
-        String vencimentoValor = boleto.getFatorVencimento() + boleto.getValorTitulo();
-        String numeros = boleto.getCarteira() + boleto.getNossoNumero()
-                + boleto.getNoDocumento() + boleto.getCodCliente();
-        String codigoBarras = codigo + vencimentoValor
-                + boleto.getDigitoCampo(numeros) + "0";
-        return boleto.getDigitoCodigoBarras(codigoBarras);
     }
     
     private String getCampo5() {
@@ -145,103 +112,59 @@ public class Itau implements Banco {
         return campo;
     }
     
+    /**
+     * POSIÇÃO   TAMANHO  PICTURE   CONTEÚDO
+     * 01 a 03    03      9(03)     Código do Banco na Câmara de Compensação = '341' 
+     * 04 a 04    01      9(01)     Código da Moeda = '9'
+     * 05 a 05    01      9(01)     DAC código de Barras (Anexo 2) 
+     * 06 a 09    04      9(04)     Fator de Vencimento (Anexo 6)
+     * 10 a 19    10      9(08)V(2) Valor 
+     * 20 a 22    03      9(03)     Carteira
+     * 23 a 30    08      9(08)     Nosso Número 
+     * 31 a 31    01      9(01)     DAC [Agência /Conta/Carteira/Nosso Número] (Anexo 4)
+     * 32 a 35    04      9(04)     N.º da Agência cedente 
+     * 36 a 40    05      9(05)     N.º da Conta Corrente
+     * 41 a 41    01      9(01)     DAC [Agência/Conta Corrente] (Anexo 3)
+     * 42 a 44 03 9(03) Zeros
+     * @return 
+     */
     @Override
     public String getCodigoBarras() {
-        String carteira = getCarteiraFormatted();
-        if ("198".equals(carteira)
-                || "107".equals(carteira)
-                || "122".equals(carteira)
-                || "142".equals(carteira)
-                || "143".equals(carteira)
-                || "196".equals(carteira)) {
-            String codigo = getNumero() + String.valueOf(boleto.getMoeda());
-            assert (codigo.length() == 4);
-            String vencimentoValor = boleto.getFatorVencimento() + boleto.getValorTitulo();
-            assert (vencimentoValor.length() == 14);
-            String numeros = boleto.getCarteira() + boleto.getNossoNumero()
-                    + boleto.getNoDocumento() + boleto.getCodCliente();
-            assert (numeros.length() == 23);
-            String codigoBarras = codigo + getCampo4_198() + vencimentoValor
-                    + boleto.getDigitoCampo(numeros) + "0";
-            return codigoBarras;
-        } else {
-            return getNumero() + String.valueOf(boleto.getMoeda())
-                    + String.valueOf(getCampo4())
-                    + String.valueOf(getCampo5())
-                    + String.valueOf(boleto.getCarteira())
-                    + String.valueOf(boleto.getNossoNumero())
-                    + String.valueOf(getDacNossoNumero())
-                    + String.valueOf(completaAgencia() + boleto.getAgencia())
-                    + boleto.getContaCorrente()
-                    + boleto.getDvContaCorrente() + "000";
-
-        }
-
+        String codigo = getCodigoBarrasSemDac();
+        String dac = boleto.getDigitoCodigoBarras(codigo);
+        System.out.println(codigo+" DAC "+dac);
+        codigo = codigo.substring(0, 4) + dac + codigo.substring(4);
+        System.out.println("Resultado : "+codigo);
+        return codigo;
     }
     
     @Override
     public String getLinhaDigitavel() {
-        String carteira = getCarteiraFormatted();
-        if("198".equals(carteira)
-                || "107".equals(carteira)
-                || "122".equals(carteira)
-                || "142".equals(carteira)
-                || "143".equals(carteira)
-                || "196".equals(carteira)){
-            String campo = getCampo1();
-            StringBuilder sb = new StringBuilder();
-            sb.append(campo.substring(0, 5));
-            sb.append(".");
-            sb.append(campo.substring(5));
-            sb.append(" ");
+        String campo = getCampo1();
+        StringBuilder sb = new StringBuilder();
+        sb.append(campo.substring(0, 5));
+        sb.append(".");
+        sb.append(campo.substring(5));
+        sb.append(" ");
 
-            campo = getCampo2_198();
-            sb.append(campo.substring(0, 5));
-            sb.append(".");
-            sb.append(campo.substring(5));
-            sb.append(" ");
+        campo = getCampo2();
+        sb.append(campo.substring(0, 5));
+        sb.append(".");
+        sb.append(campo.substring(5));
+        sb.append(" ");
 
-            campo = getCampo3_198();
-            sb.append(campo.substring(0, 5));
-            sb.append(".");
-            sb.append(campo.substring(5));
-            sb.append(" ");
+        campo = getCampo3();
+        sb.append(campo.substring(0, 5));
+        sb.append(".");
+        sb.append(campo.substring(5));
+        sb.append(" ");
 
-            sb.append(getCampo4_198());
-            sb.append(" ");
-            sb.append(getCampo5());
-            return sb.toString();
-        } else {
-            if ("157".equals(carteira) || "109".equals(carteira)) {
-                String campo = getCampo1();
-                StringBuilder sb = new StringBuilder();
-                sb.append(campo.substring(0, 5));
-                sb.append(".");
-                sb.append(campo.substring(5));
-                sb.append(" ");
-
-                campo = getCampo2_157();
-                sb.append(campo.substring(0, 5));
-                sb.append(".");
-                sb.append(campo.substring(5));
-                sb.append(" ");
-
-                campo = getCampo3_157();
-                sb.append(campo.substring(0, 5));
-                sb.append(".");
-                sb.append(campo.substring(5));
-                sb.append(" ");
-
-                sb.append(getCampo4());
-                sb.append(" ");
-                sb.append(getCampo5());
-                return sb.toString();
-            }
-            return getCampo1().substring(0, 5) + "." + getCampo1().substring(5) + "  "
-                    + getCampo2().substring(0, 5) + "." + getCampo2().substring(5) + "  "
-                    + getCampo3().substring(0, 5) + "." + getCampo3().substring(5) + "  "
-                    + getCampo4() + "  " + getCampo5();
-        }
+        sb.append(getCampo4());
+        sb.append(" ");
+        sb.append(getCampo5());
+        campo = sb.toString();
+        System.out.println("Linha Digitavel "+campo);
+        return campo;
         
     }
     

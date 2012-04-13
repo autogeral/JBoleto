@@ -22,7 +22,7 @@ class ExemploItau {
 
     public static void main(String args[]) {
         testaJ();
-        testaPatricia();
+//        testaPatricia();
     }
 
     private static void testaJ() {
@@ -32,7 +32,8 @@ class ExemploItau {
         jBoletoBean.setDataProcessamento("01/01/2010");
 
         jBoletoBean.setCedente("J. Computação LTDA - ME");
-        jBoletoBean.setCarteira("198");
+        //jBoletoBean.setCarteira("198");
+        jBoletoBean.setCarteira("110");
 
         jBoletoBean.setNomeSacado("Patricia Alvarenga Gontijo de Souza");
         jBoletoBean.setEnderecoSacado("Av. Dom Pedro II, 348");
@@ -49,27 +50,27 @@ class ExemploItau {
 
 //        jBoletoBean.setImagemMarketing("/home/fabio/template_logo.png");
 
-        jBoletoBean.setDataVencimento("31/08/2010");
+        jBoletoBean.setDataVencimento("01/05/2002");
         jBoletoBean.setInstrucao1("APOS O VENCIMENTO COBRAR MULTA DE 2%");
         jBoletoBean.setInstrucao2("APOS O VENCIMENTO COBRAR R$ 0,50 POR DIA DE ATRASO");
         jBoletoBean.setInstrucao3("");
         jBoletoBean.setInstrucao4("");
 
-        jBoletoBean.setAgencia("0278");
-        jBoletoBean.setContaCorrente("84469");
-        jBoletoBean.setDvContaCorrente("1");
+        jBoletoBean.setAgencia("0057");
+        jBoletoBean.setContaCorrente("12345");
+        jBoletoBean.setDvContaCorrente("7");
         //Documentacao especifica 5 numeros
         jBoletoBean.setCodCliente("00000");
 
-        jBoletoBean.setNossoNumero("1", 8);
+        jBoletoBean.setNossoNumero("12345678", 8);
         //especificacao para carteira 198 sao 7 numeros
         jBoletoBean.setNoDocumento("0000001");
-        jBoletoBean.setValorBoleto("2.00");
+        jBoletoBean.setValorBoleto("123.45");
 
         JBoleto jBoleto = new JBoleto();
 
         jBoleto.addBoleto(jBoletoBean, JBoleto.ITAU);
-        jBoleto.writeToFile("itauJ.pdf");
+        jBoleto.writeToFile("testeManualImplementacaoItau.pdf");
     }
 
     private static void testaPatricia() {
