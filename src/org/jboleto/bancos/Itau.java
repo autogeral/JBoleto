@@ -103,7 +103,7 @@ public class Itau implements Banco {
     private String getCodigoBarrasSemDac() {
         return getNumero() + String.valueOf(boleto.getMoeda()) +
                 boleto.getFatorVencimento() + boleto.getValorTitulo() + String.valueOf(boleto.getCarteira()) +
-                String.valueOf(boleto.getNossoNumero()) + getDacNossoNumero() +
+                String.valueOf(boleto.getNossoNumero()) + getDacNossoNumero() + completaAgencia() +
                 String.valueOf(boleto.getAgencia()) + boleto.getContaCorrente() + boleto.getDvContaCorrente() + "000";
     }
     
