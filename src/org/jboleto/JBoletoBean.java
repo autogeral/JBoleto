@@ -201,8 +201,11 @@ public class JBoletoBean {
     public void setNossoNumero(String nossoNumero, int qtdDigitos) {
         String zeros = "0000000000000000000000000000000000000000";
         int rest = qtdDigitos - nossoNumero.length();
-
-        this.setNossoNumero(zeros.substring(0, rest) + nossoNumero);
+        if (rest <= 0) {
+            this.setNossoNumero(nossoNumero);
+        } else {
+            this.setNossoNumero(zeros.substring(0, rest) + nossoNumero);
+        }
     }
 
     /**
