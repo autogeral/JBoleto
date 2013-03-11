@@ -24,6 +24,7 @@ public class Bradesco implements Banco {
     
     JBoletoBean boleto;
     
+    @Override
     public String getNumero() {
         return "237";
     }
@@ -33,14 +34,14 @@ public class Bradesco implements Banco {
     }
 
      public int getDacNossoNumero() {
-        int dac = 0;
-        int resto = 0;
+        int dac;
+        int resto;
 
 
         String campo =  String.valueOf(boleto.getCarteira()) + boleto.getNossoNumero();
 
         int multiplicador = 2;
-        int multiplicacao = 0;
+        int multiplicacao;
         int soma_campo = 0;
 
          for (int i = campo.length(); i > 0; i--) {
@@ -64,9 +65,7 @@ public class Bradesco implements Banco {
     }
      
     private String getCampoLivre() {
-        
         String campo = boleto.getAgencia() + boleto.getCarteira() + boleto.getNossoNumero() + getContaCorrenteFormatted() + "0";
-        
         return campo;
     }
     
@@ -106,9 +105,10 @@ public class Bradesco implements Banco {
         return campo;
     }
     
+    @Override
     public String getCodigoBarras() {
         String carteira = getCarteiraFormatted();
-        String campo = "";
+        String campo;
         if ("09".equals(carteira)) {
             campo = getNumero() + String.valueOf(boleto.getMoeda()) + getCampo4()
                     + boleto.getFatorVencimento() + boleto.getValorTitulo() + getCampoLivre();
@@ -120,6 +120,7 @@ public class Bradesco implements Banco {
         return campo;
     }
     
+    @Override
     public String getLinhaDigitavel() {
         return 	getCampo1().substring(0,5) + "." + getCampo1().substring(5) + "  " +
                 getCampo2().substring(0,5) + "." + getCampo2().substring(5) + "  " +
@@ -131,20 +132,23 @@ public class Bradesco implements Banco {
      * Recupera a carteira no padrao especificado pelo banco
      * @author Gladyston Batista/Eac Software
      */
+    @Override
     public String getCarteiraFormatted() {
         return boleto.getCarteira();
     }
 
     /**
      * Recupera a conta corrente no padrao especificado pelo banco
-     * @author Murilo Lima
+     * @author Cesário Lange
      */
     public String getContaCorrenteFormatted() {
-        if (boleto.getContaCorrente().equals("5455")) {
-            return "000" + boleto.getContaCorrente();
+        String zeros = "00000000";
+        int rest = 8 - boleto.getContaCorrente().length();
+        if (rest <= 0) {
+           return  boleto.getContaCorrente();
         } else {
-            return boleto.getContaCorrente();
-        }
+            return(zeros.substring(0, rest) + boleto.getContaCorrente());
+        }        
     }
 
     
@@ -152,6 +156,7 @@ public class Bradesco implements Banco {
      * Recupera a agencia / codigo cedente no padrao especificado pelo banco
      * @author Gladyston Batista/Eac Software
      */
+    @Override
     public String getAgenciaCodCedenteFormatted() {
         if (boleto.getAgencia().equals("1724") && boleto.getContaCorrente().equals("5455")) {
             return boleto.getAgencia() + "-8" +" / " + "000" +boleto.getContaCorrente() + "-" + boleto.getDvContaCorrente();
@@ -160,6 +165,7 @@ public class Bradesco implements Banco {
         }
     }
     
+    @Override
     public String getNossoNumeroFormatted() {
         if (getCarteiraFormatted().equals("09")) {
             if (getDacNossoNumero() == 10) {
