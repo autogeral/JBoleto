@@ -35,7 +35,7 @@ public class BancoBrasil implements Banco {
     
     private String getCampoLivre() {
         String campo = "000000" + boleto.getNumConvenio() + boleto.getNossoNumero() + boleto.getCarteira();
-        return campo;
+         return campo;
     }
     
     private String getCampo1() {
@@ -76,6 +76,14 @@ public class BancoBrasil implements Banco {
     }
     
     public String getLinhaDigitavel() {
+        String campo1 = getCampo1().substring(0,5);
+        String campo12 = getCampo1().substring(5);
+        String campo2 = getCampo2().substring(0,5);
+        String campo22 = getCampo2().substring(5);
+        String campo3 = getCampo3().substring(0,5);
+        String cammpo33 = getCampo3().substring(5);
+        String campo4 = getCampo4();
+        String campo5 = getCampo5();
         return 	getCampo1().substring(0,5) + "." + getCampo1().substring(5) + "  " +
                 getCampo2().substring(0,5) + "." + getCampo2().substring(5) + "  " +
                 getCampo3().substring(0,5) + "." + getCampo3().substring(5) + "  " +
@@ -104,6 +112,9 @@ public class BancoBrasil implements Banco {
         if (boleto.getDvAgencia() == null || boleto.getDvAgencia().isEmpty()) {
             if (boleto.getAgencia().equals("354")) {
                 boleto.setDvAgencia("9");
+            }
+            if (boleto.getAgencia().equals("629") || boleto.getAgencia().equals("929")) {
+                boleto.setDvAgencia("6");
             }
         }
        

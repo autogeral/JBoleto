@@ -65,7 +65,7 @@ public class Bradesco implements Banco {
     }
      
     private String getCampoLivre() {
-        String campo = boleto.getAgencia() + boleto.getCarteira() + boleto.getNossoNumero() + getContaCorrenteFormatted() + "0";
+        String campo = "0"+boleto.getAgencia() + boleto.getCarteira() + boleto.getNossoNumero() + getContaCorrenteFormatted() + "0";
         return campo;
     }
     
