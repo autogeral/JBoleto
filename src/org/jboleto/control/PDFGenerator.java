@@ -185,9 +185,9 @@ public class PDFGenerator {
             cb.showText(boleto.getDataVencimento());
             
             cb.setTextMatrix(document.left()+400,altura);
-            cb.showText(formatter.valueToString(new Double(boleto.getValorBoleto())));
+            //cb.showText(formatter.valueToString(new Double(boleto.getValorBoleto())));
+            cb.showText(formatter.valueToString(new Double(boleto.getValorCobrado())));
             
-
             // ALTERADO POR GLADYSTON
             cb.setTextMatrix(document.left()+5,altura-19);          
             cb.showText(banco.getAgenciaCodCedenteFormatted());
@@ -254,6 +254,31 @@ public class PDFGenerator {
             
             cb.setTextMatrix(document.left()+430,altura-185);
             cb.showText(formatter.valueToString(new Double(boleto.getValorBoleto())));
+
+            if (boleto.getDescontoAbatimento() != null && !"".equals(boleto.getDescontoAbatimento())) {
+                cb.setTextMatrix(document.left() + 430, altura - 206);
+                cb.showText(formatter.valueToString(new Double(boleto.getDescontoAbatimento())));
+            }
+            
+//            if (boleto.getDescontoAbatimento() != null && !"".equals(boleto.getDescontoAbatimento())) {
+//                cb.setTextMatrix(document.left() + 430, altura - 227);
+//                cb.showText(formatter.valueToString(new Double(boleto.getDescontoAbatimento())));
+//            }
+
+            if (boleto.getMoraMulta() != null && !"".equals(boleto.getMoraMulta())) {
+                cb.setTextMatrix(document.left() + 430, altura - 248);
+                cb.showText(formatter.valueToString(new Double(boleto.getMoraMulta())));
+            }
+
+            if (boleto.getAcrescimo() != null && !"".equals(boleto.getAcrescimo())) {
+                cb.setTextMatrix(document.left() + 430, altura - 269);
+                cb.showText(formatter.valueToString(new Double(boleto.getAcrescimo())));
+            }
+
+            if (boleto.getValorCobrado() != null && !"".equals(boleto.getValorCobrado())) {
+                cb.setTextMatrix(document.left() + 430, altura - 290);
+                cb.showText(formatter.valueToString(new Double(boleto.getValorCobrado())));
+            }
 
             cb.setFontAndSize(bfTextoSimples, 6);
             cb.setTextMatrix(document.left()+37, altura-197);

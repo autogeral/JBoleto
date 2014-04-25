@@ -74,6 +74,8 @@ public class JBoletoBean {
     private String dvCodigoFornecidoAgencia = "";
     private String imagemMarketing;
     private List<String> descricoes = null;
+    private String descontoAbatimento;
+    private String moraMulta;
 
     public JBoletoBean() {
     }
@@ -724,14 +726,38 @@ public class JBoletoBean {
         String valor = "";
 
         try {
-            valor = formatter.valueToString(new Double(getValorBoleto()));
+            valor = formatter.valueToString(new Double(getValorCobrado()));
         } catch (Exception ex) {
+            ex.printStackTrace(System.err);
         }
 
         valor = valor.replace(",", "").replace(".", "");
         String valorTitulo = zeros.substring(0, zeros.length() - valor.length()) + valor;
 
         return valorTitulo;
+    }
+
+    public String getValorCobrado() {
+        double valor = new Double(getValorBoleto());
+        valor += (moraMulta != null && !"".equals(moraMulta) ? new Double(moraMulta) : 0);
+        valor -= (descontoAbatimento != null && !"".equals(descontoAbatimento) ? new Double(descontoAbatimento) : 0);
+        return Double.toString(valor);
+    }
+
+    public String getMoraMulta() {
+        return moraMulta;
+    }
+
+    public void setMoraMulta(String moraMulta) {
+        this.moraMulta = moraMulta;
+    }
+    
+    public String getDescontoAbatimento() {
+        return descontoAbatimento;
+    }
+
+    public void setDescontoAbatimento(String descontoAbatimento) {
+        this.descontoAbatimento = descontoAbatimento;
     }
 
     /**
