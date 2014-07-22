@@ -57,6 +57,7 @@ public class PDFGenerator {
     
     private final float IMAGEM_MARKETING_WIDTH = 511.2f;
     private final float IMAGEM_MARKETING_HEIGHT = 3341.3f;
+    boolean boletoCaixa = false;
     
     Image imgTitulo = null;
 
@@ -89,6 +90,10 @@ public class PDFGenerator {
             imgTitulo = Image.getInstance(getClass().getResource("/img/" + template + ".gif"));
             imgTitulo.scaleToFit(IMAGEM_BOLETO_WIDTH,IMAGEM_BOLETO_HEIGHT);
             imgTitulo.setAbsolutePosition(0,0);
+            //Para usar no template da caixa
+            if (template.equals("templateCaixa")){
+                boletoCaixa= true;
+            }
 
             //Pega a imagem do marketing
             if (boleto.getImagemMarketing() != null) {
@@ -224,7 +229,12 @@ public class PDFGenerator {
             
             // ALTERADO POR GLADYSTON
             cb.setTextMatrix(document.left()+410,altura-141);
-            cb.showText(banco.getAgenciaCodCedenteFormatted());
+            String agenciacodCendenteFormatada = banco.getAgenciaCodCedenteFormatted();
+            //Boleto da Caixa  usa formatação diferente 
+            if(banco.getNumero().equals("104")){
+                agenciacodCendenteFormatada=agenciacodCendenteFormatada.replace(".000.00", "/");
+            }
+            cb.showText(agenciacodCendenteFormatada);
             
             cb.setTextMatrix(document.left()+5,altura-162);
             cb.showText(boleto.getDataDocumento());
@@ -243,7 +253,12 @@ public class PDFGenerator {
             
             // ALTERADO POR GLADYSTON
             cb.setTextMatrix(document.left()+410,altura-162);
-            cb.showText(banco.getNossoNumeroFormatted());
+            String nossoNumeroformatado = banco.getNossoNumeroFormatted();
+            //Boleto da Caixa  usa formatação diferente 
+            if(banco.getNumero().equals("104")){
+                nossoNumeroformatado=nossoNumeroformatado.replace(".", "/");
+            }            
+            cb.showText(nossoNumeroformatado);
             
             // ALTERADO POR GLADYSTON
             cb.setTextMatrix(document.left()+122,altura-185);
@@ -303,14 +318,35 @@ public class PDFGenerator {
             cb.setTextMatrix(document.left()+5,altura-277);
             cb.showText(boleto.getCedente());
             
-            cb.setTextMatrix(document.left()+30,altura-302);
-            cb.showText(JBoletoBean.soPrimeiraMaiuscula(boleto.getNomeSacado()) + "     " + boleto.getCpfSacado());
+            if (!boletoCaixa) {
+                cb.setTextMatrix(document.left() + 30, altura - 302);
+                cb.showText(JBoletoBean.soPrimeiraMaiuscula(boleto.getNomeSacado()) + "     " + boleto.getCpfSacado());
+            } else {
+                cb.setTextMatrix(document.left() + 30, altura - 302);
+                cb.showText(JBoletoBean.soPrimeiraMaiuscula(boleto.getNomeSacado()));
+                //Cnpj
+                cb.setTextMatrix(document.left() + 423, altura - 303);
+                cb.showText(boleto.getCpfSacado());
+            }
             
             cb.setTextMatrix(document.left()+30,altura-312);
             cb.showText(boleto.getEnderecoSacado());
             
-            cb.setTextMatrix(document.left()+30,altura-322);
-            cb.showText(boleto.getCepSacado() + " " + boleto.getBairroSacado() + " - " + boleto.getCidadeSacado() + " " + boleto.getUfSacado());
+            if (!boletoCaixa) {
+                cb.setTextMatrix(document.left() + 30, altura - 322);
+                cb.showText(boleto.getCepSacado() + " " + boleto.getBairroSacado() + " - " + boleto.getCidadeSacado() + " " + boleto.getUfSacado());
+            } else {
+                 //bairro - cidade
+                 cb.setTextMatrix(document.left()+30,altura-322);
+                 cb.showText(boleto.getBairroSacado() + " - " + boleto.getCidadeSacado());
+                 //estadp
+                 cb.setTextMatrix(document.left()+401,altura-316);
+                 cb.showText(boleto.getUfSacado());
+                 //cep
+                 cb.setTextMatrix(document.left()+445,altura-316);
+                 cb.showText(boleto.getCepSacado());
+            }
+            
             
             cb.endText();
             
