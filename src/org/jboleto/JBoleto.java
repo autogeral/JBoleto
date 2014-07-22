@@ -110,7 +110,11 @@ public class JBoleto {
          * Ainda não temos nenhuma personalizacao
          */
         if (generator == null) {
-            generator = new PDFGenerator("template", boleto, bancoBean);
+            String template ="template";
+            if(banco==4){
+                template ="templateCaixa";
+            }
+            generator = new PDFGenerator(template, boleto, bancoBean);
 //            if (banco==JBoleto.NOSSACAIXA) {
 //                generator = new PDFGenerator("template", boleto, bancoBean);
 //            } else {
