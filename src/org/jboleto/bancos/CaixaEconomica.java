@@ -26,6 +26,8 @@ import org.jboleto.JBoletoBean;
 public class CaixaEconomica implements Banco {
 
     JBoletoBean boleto;
+    private int REGISTRO = Integer.parseInt(System.getProperty("boleto.registro","1"));
+    private int responsavelEmissaoBoleto;
 
     /**
      * Metdodo responsavel por resgatar o numero do banco, coloque no return o codigo do seu banco
@@ -35,10 +37,43 @@ public class CaixaEconomica implements Banco {
     }
 
     /**
+     * Retorna  Identificador da Emissão do Boleto
+     * Segundo a documentação da Caixa Economica (4-Beneficiário) 
+     */
+    public int getResponsavelEmissaoBoleto() {
+        return (boleto.getCarteira().equals("1") ? 4 : responsavelEmissaoBoleto);
+    }
+    
+    public void setResponsavelEmissaoBoleto(int responsavelEmissaoBoleto){
+        this.responsavelEmissaoBoleto = responsavelEmissaoBoleto;
+    }
+    
+    /**
      * Retorna o Campo livre
      */
+//    private String getCampoLivre() {
+//        return boleto.getCarteira() + boleto.getNossoNumero() + boleto.getAgencia() + boleto.getCodigoOperacao() + boleto.getCodigoFornecidoAgencia();
+//    }
+    
+        /**
+     * Retorna o Campo livre
+     */ 
     private String getCampoLivre() {
-        return boleto.getCarteira() + boleto.getNossoNumero() + boleto.getAgencia() + boleto.getCodigoOperacao() + boleto.getCodigoFornecidoAgencia();
+       String aux = boleto.getCarteira() + getResponsavelEmissaoBoleto() + boleto.getNossoNumero();
+       String codigoBeneficiario = boleto.getCedenteCodigoCliente() ;
+       String nossoNumeroSequencia1 = aux.substring(2, 5);
+       String constante1 = String.valueOf(REGISTRO); 
+       String nossoNumeroSequencia2 = aux.substring(5, 8);
+       String constante2 = Integer.toString(getResponsavelEmissaoBoleto());
+       String nossoNumeroSequencia3 = aux.substring(8, 17);
+       String aux1 = codigoBeneficiario + nossoNumeroSequencia1 + constante1 + nossoNumeroSequencia2 + constante2 + nossoNumeroSequencia3;
+       String dVCampoLivre = DVCampoLivre(aux1);
+       
+       String retorno = codigoBeneficiario + nossoNumeroSequencia1 + constante1 + 
+               nossoNumeroSequencia2 + constante2 + nossoNumeroSequencia3 + dVCampoLivre;
+       
+       return retorno;
+      //  return boleto.getCedenteCodigoCliente()+ boleto.getNossoNumero().substring(2,4) + boleto.getAgencia() + boleto.getCodigoOperacao() + boleto.getCodigoFornecidoAgencia();
     }
 
     /**
@@ -83,6 +118,13 @@ public class CaixaEconomica implements Banco {
      * ver documentacao do banco para saber qual a ordem deste campo
      */
     private String getCampo4() {
+        
+        String banco = getNumero();
+        String moeda = String.valueOf(boleto.getMoeda());
+        String fatorVencimento = String.valueOf(boleto.getFatorVencimento());
+        String valor =  boleto.getValorTitulo();
+        String campoLivre = getCampoLivre();
+        
         String campo = getNumero() + String.valueOf(boleto.getMoeda()) + boleto.getFatorVencimento() + boleto.getValorTitulo() + getCampoLivre();
 
         return boleto.getDigitoCodigoBarras(campo);
@@ -118,24 +160,94 @@ public class CaixaEconomica implements Banco {
      * @author Gladyston Batista/Eac Software
      */
     public String getCarteiraFormatted() {
-        return "SR";
+        return boleto.getCarteira();
     }
 
     /**
      * Recupera a carteira no padrao especificado pelo banco
      * @author Gladyston Batista/Eac Software
      */
+//    public String getAgenciaCodCedenteFormatted() {
+//
+//        Integer f1 = Integer.parseInt(boleto.getAgencia().substring(0, 4));
+//        Integer f2 = Integer.parseInt(boleto.getCodigoOperacao().substring(0, 3));
+//        Integer f3 = Integer.parseInt(boleto.getCodigoFornecidoAgencia());
+//        Integer f4 = Integer.parseInt(boleto.getDvCodigoFornecidoAgencia());
+//
+//        return String.format("%04d.%03d.%08d-%01d", f1, f2, f3, f4);
+//    }
+    
+    
     public String getAgenciaCodCedenteFormatted() {
 
-        Integer f1 = Integer.parseInt(boleto.getAgencia().substring(0, 4));
-        Integer f2 = Integer.parseInt(boleto.getCodigoOperacao().substring(0, 3));
-        Integer f3 = Integer.parseInt(boleto.getCodigoFornecidoAgencia());
-        Integer f4 = Integer.parseInt(boleto.getDvCodigoFornecidoAgencia());
+        String ultimo = boleto.getCedenteCodigoCliente();
+        ultimo = ultimo.substring(ultimo.length() - 1);
 
-        return String.format("%04d.%03d.%08d-%01d", f1, f2, f3, f4);
+        String aux = boleto.getCedenteCodigoCliente().substring(0, boleto.getCedenteCodigoCliente().length() - 1);
+        aux += "-" + ultimo;
+        return boleto.getAgencia() + "/" + aux;
     }
 
-    public String getNossoNumeroFormatted() {
-        return boleto.getCarteira() + "." + boleto.getNossoNumero() + "-" + boleto.getDvNossoNumero();
+    public String getNossoNumeroFormatted() {               
+        String campo =   boleto.getCarteira() + getResponsavelEmissaoBoleto() + boleto.getNossoNumero();
+        String digito = boleto.calculaDigitoVerificadorNossoNumero(campo);
+        return boleto.getCarteira()+ getResponsavelEmissaoBoleto() + "/"+ boleto.getNossoNumero() + "-" + digito;
+    }
+
+    private String DVCampoLivre(String aux) {
+      
+        String campoLivre = "";
+
+        int i = 0;
+        int x = 0;
+        int multiplicador = 9;
+
+        /*
+         1º PASSO 
+         Aplicar o módulo 11, o primeiro dígito da direita para a esquerda será
+         multiplicado por 2, o segundo, por 3 e 
+         assim sucessivamente até o 9;
+         */
+        //2°Passo, Somar o resultado da multiplicação: 
+        System.out.println();
+        int soma = 0;
+        while (i < aux.length()) {
+            x = Integer.parseInt(aux.substring(i, i + 1));
+            x = x * multiplicador;
+
+            multiplicador -= 1;
+            if (multiplicador == 1) {
+                multiplicador = 9;
+            }
+            campoLivre += x;
+            soma += x;
+            i++;
+        }
+
+        /*
+         3º PASSO 
+         Dividir o Total da Soma por 11 
+         Obs: Quando o Total da Soma for MENOR que o quociente (no caso 11), 
+         pular o 3º PASSO, ou seja, o Total 
+         da Soma deverá ser diminuído diretamente do quociente, 
+         obtendo-se o DV como resultado. 
+         */
+        int resto = 0;
+        if (soma > 11) {
+            resto = soma % 11;
+        }
+
+        /*
+         4º PASSO 
+         Subtrair o resto da divisão de 11.
+         Se o RESULTADO for maior que 9 (nove) o DV será 0 (zero), 
+         caso contrário o RESULTADO será o DV
+         */
+        int dv = 11 - resto;
+        if (dv > 9) {
+            dv = 0;
+        }
+
+        return String.valueOf(dv);
     }
 }

@@ -36,7 +36,7 @@ public class JBoletoBean {
     private String carteira;
     private String numConvenio;
     private String nossoNumero;
-    private String dvNossoNumero;
+    private String dvNossoNumero = "0";
     private String dataVencimento;
     private String dataDocumento;
     private String dataProcessamento;
@@ -46,6 +46,7 @@ public class JBoletoBean {
     private String localPagamento;
     private String localPagamento2;
     private String cedente;
+    private String cedenteCodigoCliente;
     private String qtdMoeda;
     private String valorMoeda;
     private String acrescimo;
@@ -319,7 +320,20 @@ public class JBoletoBean {
     public void setCedente(String cedente) {
         this.cedente = cedente;
     }
-
+    
+    public String getCedenteCodigoCliente() {
+        return cedenteCodigoCliente;
+    }
+    
+    /**
+     * Seta o codigo do cedente Cliente.
+     * @param cedenteCliente
+     * Seta o codigo do cedente Cliente.
+     */
+    public void setCedenteCodigoCliente(String cedenteCodigoCliente) {
+        this.cedenteCodigoCliente = cedenteCodigoCliente;
+    }
+    
     /**
      * Retorna o cep do sacado.
      * @return Retorna o cep do sacado.
@@ -1153,4 +1167,34 @@ public class JBoletoBean {
 
         return ((Integer) dac).toString();
     }
+    
+    
+    public String calculaDigitoVerificadorNossoNumero(String campo){
+        int soma = 0;
+        int resto = 0;
+        int multiplicador = 2;
+        int aux =  0;
+        int digito = 0;
+       
+        for(int i =0; i < campo.length() ; i++){
+            aux = Integer.parseInt(campo.substring(i, i+1));
+            soma += aux * multiplicador;
+            
+            if(multiplicador == 2){
+                multiplicador = 9;
+            }else {
+                multiplicador--;
+            }
+        }
+        
+        resto = soma % 11;
+        digito = 11 - resto;
+                
+        if(digito > 9){
+            digito = 0;
+        }
+        
+        return Integer.toString(digito);
+    }
+    
 }

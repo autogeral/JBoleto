@@ -174,8 +174,13 @@ public class PDFGenerator {
             
             cb.setTextMatrix(document.left()+125,altura-87);
             
-            cb.showText(banco.getNumero() + "-" + boleto.getDigitoCodigoBarras(banco.getNumero()));
-            cb.endText();
+            if (banco.getNumero().equals("104")) {
+                cb.showText(banco.getNumero() + "-" + "0");
+                cb.endText();
+            } else {
+                cb.showText(banco.getNumero() + "-" + boleto.getDigitoCodigoBarras(banco.getNumero()));
+                cb.endText();
+            }
             
             cb.beginText();
             cb.setFontAndSize(bfTextoSimples,8);
@@ -314,10 +319,12 @@ public class PDFGenerator {
             
             cb.setTextMatrix(document.left()+5,altura-247);
             cb.showText(boleto.getInstrucao5());
-            
-            cb.setTextMatrix(document.left()+5,altura-277);
-            cb.showText(boleto.getCedente());
-            
+
+            if (!boletoCaixa) {
+                cb.setTextMatrix(document.left() + 5, altura - 277);
+                cb.showText(boleto.getCedente());
+            }
+
             if (!boletoCaixa) {
                 cb.setTextMatrix(document.left() + 30, altura - 302);
                 cb.showText(JBoletoBean.soPrimeiraMaiuscula(boleto.getNomeSacado()) + "     " + boleto.getCpfSacado());
