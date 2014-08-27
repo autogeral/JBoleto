@@ -13,6 +13,7 @@
 package org.jboleto;
 
 import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.io.FileOutputStream;
 import org.jboleto.bancos.BancoBrasil;
 import org.jboleto.bancos.BancoReal;
@@ -133,7 +134,12 @@ public class JBoleto {
         ByteArrayOutputStream baos = generator.getBaos();
         
         try{
-            
+            File file = new File(path);
+            if(file.exists()) {
+                if(file.isFile()) {
+                    file.delete();
+                }
+            }
             FileOutputStream fos = new FileOutputStream(path);
             
             fos.write(baos.toByteArray());
