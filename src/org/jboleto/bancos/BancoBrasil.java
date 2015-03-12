@@ -40,27 +40,29 @@ public class BancoBrasil implements Banco {
     
     private String getCampo1() {
         String campo = getNumero() + boleto.getMoeda() + getCampoLivre().substring(0,5);
-        
-        return boleto.getDigitoCampo(campo,2);
+        String aux = boleto.getDigitoCampo(campo,2);
+        return aux;
     }
     
     private String getCampo2() {
         String campo = getCampoLivre().substring(5,15);// + boleto.getAgencia();
-        
-        return boleto.getDigitoCampo(campo,1);
+        String aux = boleto.getDigitoCampo(campo,1);
+        return aux;
     }
     
     private String getCampo3() {
-        String campo = getCampoLivre().substring(15);
         
-        return boleto.getDigitoCampo(campo,1);
+        String barras = getCodigoBarras();
+        String campo = getCampoLivre().substring(15);
+        String aux = boleto.getDigitoCampo(campo,1);
+        return aux;
     }
     
     private String getCampo4() {
         String campo = 	getNumero() + String.valueOf(boleto.getMoeda()) +
                 boleto.getFatorVencimento() + boleto.getValorTitulo() + getCampoLivre();
-        
-        return boleto.getDigitoCodigoBarras(campo);
+        String aux = boleto.getDigitoCodigoBarras(campo);
+        return aux;
     }
     
     private String getCampo5() {
@@ -115,6 +117,9 @@ public class BancoBrasil implements Banco {
             }
             if (boleto.getAgencia().equals("629") || boleto.getAgencia().equals("929")) {
                 boleto.setDvAgencia("6");
+            }            
+            if (boleto.getAgencia().equals("2913")) {
+                boleto.setDvAgencia("0");
             }
         }
        
