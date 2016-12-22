@@ -14,7 +14,9 @@ package org.jboleto;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import org.jboleto.bancos.BancoBrasil;
 import org.jboleto.bancos.BancoReal;
 import org.jboleto.bancos.Bradesco;
@@ -129,26 +131,22 @@ public class JBoleto {
     /**
      * Metodo que cria o arquivo loca no disco
      */
-    public void writeToFile(String path){
-        
+    public void writeToFile(String path) throws IOException {
+        writeToFile(new File(path));
+    }
+
+    public void writeToFile(File file) throws IOException {
         ByteArrayOutputStream baos = generator.getBaos();
-        
-        try{
-            File file = new File(path);
-            if(file.exists()) {
-                if(file.isFile()) {
-                    file.delete();
-                }
+
+        if (file.exists()) {
+            if (file.isFile()) {
+                file.delete();
             }
-            FileOutputStream fos = new FileOutputStream(path);
-            
-            fos.write(baos.toByteArray());
-            fos.flush();
-            fos.close();
-        } 
-        catch (Exception ex) {
-            ex.printStackTrace();
         }
+        FileOutputStream fos = new FileOutputStream(file);
+        fos.write(baos.toByteArray());
+        fos.flush();
+        fos.close();
     }
     
     /**
