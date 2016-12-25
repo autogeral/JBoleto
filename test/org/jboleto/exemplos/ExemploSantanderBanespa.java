@@ -11,7 +11,11 @@
  */
 package org.jboleto.exemplos;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.Vector;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.jboleto.JBoleto;
 import org.jboleto.JBoletoBean;
 
@@ -22,8 +26,8 @@ class ExemploSantanderBanespa {
 
     public static void main(String args[]) {
         JBoletoBean jBoletoBean = new JBoletoBean();
-        jBoletoBean.setDataDocumento("27/08/2009");
-        jBoletoBean.setDataProcessamento("27/08/2009");
+        jBoletoBean.setDataDocumento("01/01/2017");
+        jBoletoBean.setDataProcessamento("25/12/2016");
 
         jBoletoBean.setNoDocumento("NRO_DCTO");
         jBoletoBean.setAceite("N");
@@ -67,12 +71,17 @@ class ExemploSantanderBanespa {
 
         //jBoletoBean.setCodCliente("1284053");
         jBoletoBean.setCodCliente("1284282");
+        jBoletoBean.setCodCliente("1284053");
 
         jBoletoBean.setNossoNumero("19", 13);
         jBoletoBean.setValorBoleto("10");
 
         jBoletoBean.setIOS("0");
-        jBoletoBean.setCarteira("102");
+        // 101 - Rapida com registro
+        // 102 - Rapida sem registro
+        jBoletoBean.setCarteira("101");
+        //jBoletoBean.setCarteira("102");
+        
 
         //jBoletoBean.setImagemMarketing("C:/Users/Murilo/Documents/sarg.png");
 
@@ -87,7 +96,17 @@ class ExemploSantanderBanespa {
         jBoleto.addBoleto(jBoletoBean, JBoleto.SANTANDER_BANESPA);
 //        SantanderBanespa bancoBean = new SantanderBanespa(jBoletoBean);
 //        System.out.println(bancoBean.getCodigoBarras());
-        jBoleto.writeToFile("santanderBanespaComLogo.pdf");
+
+        File file = new File("santanderBanespaComLogo.pdf");
+        
+        try {
+            jBoleto.writeToFile(file);
+            java.awt.Desktop desktop = java.awt.Desktop.getDesktop();
+            desktop.browse(file.toURI());
+        } catch (IOException ex) {
+            Logger.getLogger(ExemploSantanderBanespa.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
 
     }
 }
