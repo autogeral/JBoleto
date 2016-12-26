@@ -13,7 +13,10 @@
 
 package org.jboleto.exemplos;
 import java.io.File;
+import java.io.IOException;
 import java.util.Vector;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.jboleto.JBoleto;
 import org.jboleto.JBoletoBean;
 
@@ -71,7 +74,11 @@ class ExemploBancoBrasil {
         JBoleto jBoleto = new JBoleto();
         
         jBoleto.addBoleto(jBoletoBean,JBoleto.BANCO_DO_BRASIL);
-        jBoleto.writeToFile("banco_brasil.pdf");	        
+            try {	        
+                jBoleto.writeToFile("banco_brasil.pdf");
+            } catch (IOException ex) {
+                Logger.getLogger(ExemploBancoBrasil.class.getName()).log(Level.SEVERE, null, ex);
+            }
             
 	}
 }

@@ -11,7 +11,10 @@
  */
 package org.jboleto.exemplos;
 
+import java.io.IOException;
 import java.util.Vector;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.jboleto.JBoleto;
 import org.jboleto.JBoletoBean;
 
@@ -49,7 +52,6 @@ class ExemploItau {
         jBoletoBean.setDescricoes(descricoes);
 
 //        jBoletoBean.setImagemMarketing("/home/fabio/template_logo.png");
-
         jBoletoBean.setDataVencimento("01/05/2002");
         jBoletoBean.setInstrucao1("APOS O VENCIMENTO COBRAR MULTA DE 2%");
         jBoletoBean.setInstrucao2("APOS O VENCIMENTO COBRAR R$ 0,50 POR DIA DE ATRASO");
@@ -70,7 +72,11 @@ class ExemploItau {
         JBoleto jBoleto = new JBoleto();
 
         jBoleto.addBoleto(jBoletoBean, JBoleto.ITAU);
-        jBoleto.writeToFile("testeManualImplementacaoItau.pdf");
+        try {
+            jBoleto.writeToFile("testeManualImplementacaoItau.pdf");
+        } catch (IOException ex) {
+            Logger.getLogger(ExemploItau.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     private static void testaPatricia() {
@@ -96,7 +102,6 @@ class ExemploItau {
         jBoletoBean.setDescricoes(descricoes);
 
 //        jBoletoBean.setImagemMarketing("/home/fabio/template_logo.png");
-
         jBoletoBean.setDataVencimento("31/08/2010");
         jBoletoBean.setInstrucao1("APOS O VENCIMENTO COBRAR MULTA DE 2%");
         jBoletoBean.setInstrucao2("APOS O VENCIMENTO COBRAR R$ 0,50 POR DIA DE ATRASO");
@@ -117,6 +122,10 @@ class ExemploItau {
         JBoleto jBoleto = new JBoleto();
 
         jBoleto.addBoleto(jBoletoBean, JBoleto.ITAU);
-        jBoleto.writeToFile("itauPatricia.pdf");
+        try {
+            jBoleto.writeToFile("itauPatricia.pdf");
+        } catch (IOException ex) {
+            Logger.getLogger(ExemploItau.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 }

@@ -11,7 +11,10 @@
  */
 package org.jboleto.exemplos;
 
+import java.io.IOException;
 import java.util.Vector;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.jboleto.JBoleto;
 import org.jboleto.JBoletoBean;
 
@@ -71,7 +74,11 @@ class ExemploSantander {
         JBoleto jBoleto = new JBoleto();
 
         jBoleto.addBoleto(jBoletoBean, JBoleto.SANTANDER);
-        jBoleto.writeToFile("santander.pdf");
+        try {
+            jBoleto.writeToFile("santander.pdf");
+        } catch (IOException ex) {
+            Logger.getLogger(ExemploSantander.class.getName()).log(Level.SEVERE, null, ex);
+        }
 
     }
 }

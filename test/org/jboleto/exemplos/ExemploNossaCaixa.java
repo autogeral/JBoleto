@@ -1,7 +1,10 @@
 package org.jboleto.exemplos;
 
+import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.Vector;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.jboleto.JBoleto;
 import org.jboleto.JBoletoBean;
 
@@ -9,17 +12,17 @@ import org.jboleto.JBoletoBean;
  * @author Vitor Motta - Fly Solution
  */
 public class ExemploNossaCaixa {
-    
+
     public static void main(String args[]) {
-        
+
         JBoleto jBoleto = new JBoleto();
-         
+
         JBoletoBean boleto = new JBoletoBean();
-         
+
         BigDecimal valor;
-         
+
         for (int i = 0; i < 5; i++) {
-         
+
             boleto.setAgencia("0016"); // sem digito
             boleto.setDvAgencia("7");
             boleto.setContaCorrente("04 002330"); // modalidade(2) + conta(6)
@@ -37,12 +40,12 @@ public class ExemploNossaCaixa {
             boleto.setInstrucao2("N�o Receber ap�s o vencimento");
             boleto.setInstrucao3("Multa de 10% ap�s vencimento");
             boleto.setEspecieDocumento("DS");
-         
+
             boleto.setDataDocumento("15/03/2007");
             boleto.setDataProcessamento("15/03/2007");
-            boleto.setDataVencimento("30/0"+ (i+3) +"/2007");
-            boleto.setNossoNumero( String.valueOf(i+1),7);
-         
+            boleto.setDataVencimento("30/0" + (i + 3) + "/2007");
+            boleto.setNossoNumero(String.valueOf(i + 1), 7);
+
             boleto.setNomeSacado("Cliente Compra Tudo");
             boleto.setEnderecoSacado("Rua Treze de Maio, 768");
             boleto.setBairroSacado("Centro");
@@ -50,15 +53,19 @@ public class ExemploNossaCaixa {
             boleto.setUfSacado("SP");
             boleto.setCepSacado("13400-902");
             boleto.setCpfSacado("123.456.789-01");
-         
-            valor = new BigDecimal( 50 * (i+1) );
-         
+
+            valor = new BigDecimal(50 * (i + 1));
+
             boleto.setValorBoleto(valor.toString());
-         
-            jBoleto.addBoleto(boleto,JBoleto.NOSSACAIXA);
-         
+
+            jBoleto.addBoleto(boleto, JBoleto.NOSSACAIXA);
+
         }
-         
-        jBoleto.writeToFile("nossa_caixa.pdf");
+
+        try {
+            jBoleto.writeToFile("nossa_caixa.pdf");
+        } catch (IOException ex) {
+            Logger.getLogger(ExemploNossaCaixa.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 }

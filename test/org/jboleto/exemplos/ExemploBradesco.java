@@ -11,7 +11,10 @@
  */
 package org.jboleto.exemplos;
 
+import java.io.IOException;
 import java.util.Vector;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.jboleto.JBoleto;
 import org.jboleto.JBoletoBean;
 
@@ -64,7 +67,11 @@ class ExemploBradesco {
         JBoleto jBoleto = new JBoleto();
 
         jBoleto.addBoleto(jBoletoBean, JBoleto.BRADESCO);
-        jBoleto.writeToFile("bradesco.pdf");
+        try {
+            jBoleto.writeToFile("bradesco.pdf");
+        } catch (IOException ex) {
+            Logger.getLogger(ExemploBradesco.class.getName()).log(Level.SEVERE, null, ex);
+        }
 
     }
 }
