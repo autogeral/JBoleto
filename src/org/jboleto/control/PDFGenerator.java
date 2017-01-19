@@ -273,7 +273,7 @@ public class PDFGenerator {
             cb.showText("R$");
             
             cb.setTextMatrix(document.left()+430,altura-185);
-            cb.showText(formatter.valueToString(new Double(boleto.getValorBoleto())));
+            cb.showText(formatter.valueToString(new Double(boleto.getValorBoleto().replace(",", "."))));
 
             if (boleto.getDescontoAbatimento() != null && !"".equals(boleto.getDescontoAbatimento())) {
                 cb.setTextMatrix(document.left() + 430, altura - 206);
