@@ -196,7 +196,7 @@ public class PDFGenerator {
             
             cb.setTextMatrix(document.left()+400,altura);
             //cb.showText(formatter.valueToString(new Double(boleto.getValorBoleto())));
-            cb.showText(formatter.valueToString(new Double(boleto.getValorCobrado())));
+            cb.showText(formatter.valueToString(new Double(boleto.getValorCobrado().replace(",", "."))));
             
             // ALTERADO POR GLADYSTON
             cb.setTextMatrix(document.left()+5,altura-19);          
@@ -277,7 +277,7 @@ public class PDFGenerator {
 
             if (boleto.getDescontoAbatimento() != null && !"".equals(boleto.getDescontoAbatimento())) {
                 cb.setTextMatrix(document.left() + 430, altura - 206);
-                cb.showText(formatter.valueToString(new Double(boleto.getDescontoAbatimento())));
+                cb.showText(formatter.valueToString(new Double(boleto.getDescontoAbatimento().replace(",", "."))));
             }
             
 //            if (boleto.getDescontoAbatimento() != null && !"".equals(boleto.getDescontoAbatimento())) {
@@ -285,19 +285,19 @@ public class PDFGenerator {
 //                cb.showText(formatter.valueToString(new Double(boleto.getDescontoAbatimento())));
 //            }
 
-            if (boleto.getMoraMulta() != null && !"".equals(boleto.getMoraMulta())) {
+            if (boleto.getMoraMulta() != null && !"".equals(boleto.getMoraMulta().replace(",", "."))) {
                 cb.setTextMatrix(document.left() + 430, altura - 248);
-                cb.showText(formatter.valueToString(new Double(boleto.getMoraMulta())));
+                cb.showText(formatter.valueToString(new Double(boleto.getMoraMulta().replace(",", "."))));
             }
 
             if (boleto.getAcrescimo() != null && !"".equals(boleto.getAcrescimo())) {
                 cb.setTextMatrix(document.left() + 430, altura - 269);
-                cb.showText(formatter.valueToString(new Double(boleto.getAcrescimo())));
+                cb.showText(formatter.valueToString(new Double(boleto.getAcrescimo().replace(",", "."))));
             }
 
             if (boleto.getValorCobrado() != null && !"".equals(boleto.getValorCobrado())) {
                 cb.setTextMatrix(document.left() + 430, altura - 290);
-                cb.showText(formatter.valueToString(new Double(boleto.getValorCobrado())));
+                cb.showText(formatter.valueToString(new Double(boleto.getValorCobrado().replace(",", "."))));
             }
 
             cb.setFontAndSize(bfTextoSimples, 6);

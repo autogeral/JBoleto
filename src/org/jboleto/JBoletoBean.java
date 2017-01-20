@@ -753,8 +753,8 @@ public class JBoletoBean {
 
     public String getValorCobrado() {
         double valor = new Double(getValorBoleto().replace(",", "."));
-        valor += (moraMulta != null && !"".equals(moraMulta) ? new Double(moraMulta) : 0);
-        valor -= (descontoAbatimento != null && !"".equals(descontoAbatimento) ? new Double(descontoAbatimento) : 0);
+        valor += (moraMulta != null && !"".equals(moraMulta) ? new Double(moraMulta.replace(",", ".")) : 0);
+        valor -= (descontoAbatimento != null && !"".equals(descontoAbatimento) ? new Double(descontoAbatimento.replace(",", ".")) : 0);
         return Double.toString(valor);
     }
 
