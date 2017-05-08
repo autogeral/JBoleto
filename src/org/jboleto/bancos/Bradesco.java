@@ -65,7 +65,7 @@ public class Bradesco implements Banco {
     }
      
     private String getCampoLivre() {
-        String campo = "0"+boleto.getAgencia() + boleto.getCarteira() + boleto.getNossoNumero() + getContaCorrenteFormatted() + "0";
+        String campo = boleto.getAgencia() + boleto.getCarteira() + boleto.getNossoNumero() + getContaCorrenteFormatted()+ "0";        
         return campo;
     }
     
@@ -88,7 +88,7 @@ public class Bradesco implements Banco {
     }
     
     private String getCampo4() {
-        String campo = 	getNumero() +
+        String campo = getNumero() +
                 boleto.getMoeda() +
                 boleto.getFatorVencimento() +
                 boleto.getValorTitulo() +
@@ -133,8 +133,8 @@ public class Bradesco implements Banco {
      * @author Gladyston Batista/Eac Software
      */
     @Override
-    public String getCarteiraFormatted() {
-        return boleto.getCarteira();
+    public String getCarteiraFormatted() {         
+        return (boleto.getCarteira().length() > 2 ? boleto.getCarteira().substring(1) : boleto.getCarteira());
     }
 
     /**
@@ -142,8 +142,8 @@ public class Bradesco implements Banco {
      * @author Cesário Lange
      */
     public String getContaCorrenteFormatted() {
-        String zeros = "00000000";
-        int rest = 8 - boleto.getContaCorrente().length();
+        String zeros = "0000000";
+        int rest = 7 - boleto.getContaCorrente().length();
         if (rest <= 0) {
            return  boleto.getContaCorrente();
         } else {
@@ -161,7 +161,7 @@ public class Bradesco implements Banco {
         if (boleto.getAgencia().equals("1724") && boleto.getContaCorrente().equals("5455")) {
             return boleto.getAgencia() + "-8" +" / " + "000" +boleto.getContaCorrente() + "-" + boleto.getDvContaCorrente();
         } else {
-            return boleto.getAgencia() + " / " + boleto.getContaCorrente() + "-" + boleto.getDvContaCorrente();
+            return boleto.getAgencia() + "-" + boleto.getDvAgencia() + "/" + boleto.getContaCorrente() + "-" + boleto.getDvContaCorrente();
         }
     }
     

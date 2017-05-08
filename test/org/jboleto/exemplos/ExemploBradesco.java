@@ -12,6 +12,8 @@
 package org.jboleto.exemplos;
 
 import java.io.IOException;
+import java.text.NumberFormat;
+import java.util.Locale;
 import java.util.Vector;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -27,10 +29,10 @@ class ExemploBradesco {
 
         JBoletoBean jBoletoBean = new JBoletoBean();
 
-        jBoletoBean.setDataDocumento("20/06/2011");
-        jBoletoBean.setDataProcessamento("20/06/2011");
+        jBoletoBean.setDataDocumento("09/01/2017");
+        jBoletoBean.setDataProcessamento("09/01/2017");
 
-        jBoletoBean.setCedente("Bruna Cartuchos e Suprimentos para Impressoras Ltda");
+        jBoletoBean.setCedente("PREVEMT MEDICINA DO TRABALHO");
         jBoletoBean.setCarteira("09");
 
         jBoletoBean.setNomeSacado("MURILO SOARES LIMA");
@@ -41,28 +43,41 @@ class ExemploBradesco {
         jBoletoBean.setCepSacado("13310-440");
         jBoletoBean.setCpfSacado("359.821.558-45");
 
-        jBoletoBean.setLocalPagamento("Pag√°vel Preferencialmente na rede Bradesco ou Banco Postal");
+        jBoletoBean.setLocalPagamento("Pag·vel preferencialmente na Rede Bradesco ou Bradesco Expresso");
 
         Vector descricoes = new Vector();
         descricoes.add("Teste");
         jBoletoBean.setDescricoes(descricoes);
 
-        jBoletoBean.setDataVencimento("20/07/2011");
-        jBoletoBean.setInstrucao1("APOS O VENCIMENTO COBRAR R$ 0,50 POR DIA DE ATRASO");
+        jBoletoBean.setDataVencimento("11/01/2017");
+        Long nossoNumero = 15082006115L;
+        NumberFormat nf = NumberFormat.getNumberInstance(new Locale("pt", "BR"));
+        nf.setMinimumFractionDigits(2);
+        nf.setMaximumFractionDigits(2);
+        nf.setGroupingUsed(false);
+        double valorBoleto = 662.23;
+        double porcentagemMora = Double.parseDouble(System.getProperty("boleto.mora.juros.dia", "0.0012"));
+        double valorMora = valorBoleto * porcentagemMora;
+        double porcentagemMultaBoleto = Double.parseDouble(System.getProperty("boleto.porcentagem.multa", "0.0210"));
+        if (porcentagemMultaBoleto < 1) {
+            porcentagemMultaBoleto *= 100;
+        }
+        jBoletoBean.setInstrucao1("ApÛs o vencimento Mora dia R$ " + nf.format(valorMora));
+        jBoletoBean.setInstrucao2("ApÛs o vencimento, multa de  " + nf.format(porcentagemMultaBoleto) + "%");
         jBoletoBean.setInstrucao3("");
-        jBoletoBean.setInstrucao4("");
+        jBoletoBean.setInstrucao4("Controle Participante: " + String.valueOf(nossoNumero));
 
-        jBoletoBean.setAgencia("1724");
-        jBoletoBean.setDvAgencia("8");
+        jBoletoBean.setAgencia("7509");
+        jBoletoBean.setDvAgencia("4");
         jBoletoBean.setAceite("N");
-        jBoletoBean.setEspecieDocumento("DM");
+        jBoletoBean.setEspecieDocumento("DS");
 
-        jBoletoBean.setContaCorrente("5455");
-        jBoletoBean.setDvContaCorrente("0");
+        jBoletoBean.setContaCorrente("4031445");
+        jBoletoBean.setDvContaCorrente("8");
 
-        jBoletoBean.setNossoNumero("1", 11);
-        jBoletoBean.setNoDocumento("1");
-        jBoletoBean.setValorBoleto("1.00");
+        jBoletoBean.setNossoNumero(String.valueOf(nossoNumero), 11);
+        jBoletoBean.setNoDocumento("21084");
+        jBoletoBean.setValorBoleto(String.valueOf(valorBoleto));
 
         JBoleto jBoleto = new JBoleto();
 
