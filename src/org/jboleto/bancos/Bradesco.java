@@ -134,7 +134,16 @@ public class Bradesco implements Banco {
      */
     @Override
     public String getCarteiraFormatted() {         
-        return (boleto.getCarteira().length() > 2 ? boleto.getCarteira().substring(1) : boleto.getCarteira());
+        String carteira;
+        String zeros = "00";
+        
+        int rest = 2 - boleto.getCarteira().length();
+        if (rest <= 0) {
+            carteira = boleto.getCarteira();
+        } else {
+            carteira = zeros.substring(0, rest) + boleto.getCarteira();
+        }
+        return carteira;
     }
 
     /**
