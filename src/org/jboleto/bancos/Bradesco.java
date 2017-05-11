@@ -180,7 +180,7 @@ public class Bradesco implements Banco {
             if (getDacNossoNumero() == 10) {
                 return (boleto.getCarteira() + "/" + boleto.getNossoNumero().substring(0, 11) + "-" + "P");
             } else {
-                return (boleto.getCarteira() + "/" + boleto.getNossoNumero().substring(0, 11) + "-" + getDacNossoNumero());
+                return (boleto.getCarteira() + "/" + boleto.getNossoNumero().substring(0, 12));
             }
         } else {
             return String.valueOf(Integer.parseInt(boleto.getNossoNumero()));
