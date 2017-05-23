@@ -38,7 +38,17 @@ public class Bradesco implements Banco {
         int resto;
 
 
-        String campo =  String.valueOf(boleto.getCarteira()) + boleto.getNossoNumero();
+        String zeros = "000";
+        String carteira;
+        
+        int rest = 3 - boleto.getCarteira().length();
+        if (rest <= 0) {
+            carteira = boleto.getCarteira();
+        } else {
+            carteira = zeros.substring(0, rest) + boleto.getCarteira();
+        }
+        
+        String campo =  String.valueOf(carteira) + boleto.getNossoNumero().substring(0, 11);
 
         int multiplicador = 2;
         int multiplicacao;
