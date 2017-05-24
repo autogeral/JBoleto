@@ -114,8 +114,10 @@ public class JBoleto {
          */
         if (generator == null) {
             String template ="template";
-            if(banco==4){
-                template ="templateCaixa";
+            if (banco == 4) {
+                template = "templateCaixa";
+            } else if (banco == 1) {
+                template = "templateBancoBradesco";
             }
             generator = new PDFGenerator(template, boleto, bancoBean);
 //            if (banco==JBoleto.NOSSACAIXA) {

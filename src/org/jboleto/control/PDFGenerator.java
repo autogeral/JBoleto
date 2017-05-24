@@ -57,7 +57,8 @@ public class PDFGenerator {
     
     private final float IMAGEM_MARKETING_WIDTH = 511.2f;
     private final float IMAGEM_MARKETING_HEIGHT = 3341.3f;
-    boolean boletoCaixa = false;
+    private boolean boletoCaixa = false;
+    private boolean boletoBradesco = false;
     
     Image imgTitulo = null;
 
@@ -93,6 +94,8 @@ public class PDFGenerator {
             //Para usar no template da caixa
             if (template.equals("templateCaixa")){
                 boletoCaixa= true;
+            } else if(template.equals("templateBancoBradesco")) {
+                boletoBradesco = true;
             }
 
             //Pega a imagem do marketing
@@ -185,18 +188,38 @@ public class PDFGenerator {
             cb.beginText();
             cb.setFontAndSize(bfTextoSimples,8);
             
-            cb.setTextMatrix(document.left()+50, altura+23);
-            cb.showText(boleto.getCedente()); //imprime o cedente
+            if (!boletoBradesco) {
+                cb.setTextMatrix(document.left() + 50, altura + 23);
+                cb.showText(boleto.getCedente()); //imprime o cedente
+            } else {
+                cb.setFontAndSize(bfTextoSimples,6);
+                cb.setTextMatrix(document.left() + 40, altura + 30);                
+                cb.showText(boleto.getNomeCooperativa().toUpperCase() + " - " + boleto.getCnpjCooperativa());//imprime o cedente
+                cb.setTextMatrix(document.left() + 40, altura + 23);
+                cb.showText(boleto.getEnderecoCooperativa().toUpperCase() + "/" + boleto.getBairroCooperativa().toUpperCase() +" - " +
+                        boleto.getCidadeCooperativa().toUpperCase() + "/" + boleto.getUfCooperativa().toUpperCase() + " - " + boleto.getCepCooperativa());                                
+                cb.setFontAndSize(bfTextoSimples,8);
+            }
             
-            cb.setTextMatrix(document.left()+5,altura);
-            cb.showText(JBoletoBean.soPrimeiraMaiuscula(boleto.getNomeSacado()));
+            cb.setTextMatrix(document.left() + 5, altura);
+            if (!boletoBradesco) {                
+                cb.showText(JBoletoBean.soPrimeiraMaiuscula(boleto.getNomeSacado()));
+            } else {
+                cb.showText(boleto.getNoDocumento());
+            }
             
             cb.setTextMatrix(document.left()+230,altura);
             cb.showText(boleto.getDataVencimento());
             
             cb.setTextMatrix(document.left()+400,altura);
             //cb.showText(formatter.valueToString(new Double(boleto.getValorBoleto())));
-            cb.showText(formatter.valueToString(new Double(boleto.getValorCobrado().replace(",", "."))));
+            if (!boletoBradesco) {
+                cb.showText(formatter.valueToString(new Double(boleto.getValorCobrado().replace(",", "."))));
+            } else {
+                cb.showText(formatter.valueToString(new Double(boleto.getValorBoleto().replace(",", "."))));
+                cb.setTextMatrix(document.left()+400,altura - 19);
+                cb.showText(formatter.valueToString(new Double(boleto.getValorCobrado().replace(",", "."))));
+            }
             
             // ALTERADO POR GLADYSTON
             cb.setTextMatrix(document.left()+5,altura-19);          
@@ -206,8 +229,24 @@ public class PDFGenerator {
             cb.setTextMatrix(document.left()+146,altura-19);
             cb.showText(banco.getNossoNumeroFormatted());
 
-            cb.setTextMatrix(document.left()+5,altura-40);
-            cb.showText(boleto.getNoDocumento());
+            if (!boletoBradesco) {
+                cb.setTextMatrix(document.left() + 5, altura - 40);
+                cb.showText(boleto.getNoDocumento());
+            } else {
+                cb.setTextMatrix(document.left() + 310, altura - 19);
+                cb.showText("R$");                
+                cb.setFontAndSize(bfTextoSimples,5);
+                cb.setTextMatrix(document.left() + 30, altura - 30);
+                cb.showText(boleto.getNomeSacado().toUpperCase() + "     " + boleto.getCpfSacado());
+                cb.setTextMatrix(document.left() + 30, altura - 36);
+                cb.showText(boleto.getEnderecoSacado().toUpperCase() + " " + boleto.getBairroSacado().toUpperCase() + " - " +boleto.getCidadeSacado().toUpperCase()
+                        + "/" + boleto.getUfSacado().toUpperCase() + " - " + boleto.getCepSacado());
+                cb.setTextMatrix(document.left() + 50, altura -  46);
+                cb.showText(boleto.getCedente().toUpperCase() + " - " + boleto.getCnpjCedente() + " " +boleto.getEnderecoCedente().toUpperCase() 
+                        + " - " + boleto.getBairroCedente().toUpperCase() + " - "
+                        + boleto.getCidadeCedente().toUpperCase() + "/" + boleto.getUfCedente().toUpperCase() + " - " + boleto.getCepCedente());
+                cb.setFontAndSize(bfTextoCB, 8);
+            }
             cb.endText();
             
             cb.beginText();
@@ -228,9 +267,19 @@ public class PDFGenerator {
             
             cb.setTextMatrix(document.left()+425,altura-121);
             cb.showText(boleto.getDataVencimento());
-            
-            cb.setTextMatrix(document.left()+5,altura-141);
-            cb.showText(boleto.getCedente());
+                        
+            if (!boletoBradesco) {
+                cb.setTextMatrix(document.left() + 5, altura - 141);
+                cb.showText(boleto.getCedente());
+            } else {                
+                cb.setFontAndSize(bfTextoSimples,6);
+                cb.setTextMatrix(document.left() + 40, altura - 129);
+                cb.showText(boleto.getNomeCooperativa() + " - " + boleto.getCnpjCooperativa());                
+                cb.setTextMatrix(document.left() + 5, altura - 138);
+                cb.showText(boleto.getEnderecoCooperativa() + "/" + boleto.getBairroCooperativa() + " - " + 
+                        boleto.getCidadeCooperativa() + " / " + boleto.getUfCooperativa() + " - " + boleto.getCepCooperativa());                
+                cb.setFontAndSize(bfTextoSimples,8);
+            }
             
             // ALTERADO POR GLADYSTON
             cb.setTextMatrix(document.left()+410,altura-141);
@@ -320,29 +369,48 @@ public class PDFGenerator {
             cb.setTextMatrix(document.left()+5,altura-247);
             cb.showText(boleto.getInstrucao5());
 
-            if (!boletoCaixa) {
+            if (!boletoCaixa && !boletoBradesco) {
                 cb.setTextMatrix(document.left() + 5, altura - 277);
                 cb.showText(boleto.getCedente());
             }
 
-            if (!boletoCaixa) {
+            if (!boletoCaixa && !boletoBradesco) {
                 cb.setTextMatrix(document.left() + 30, altura - 302);
                 cb.showText(JBoletoBean.soPrimeiraMaiuscula(boleto.getNomeSacado()) + "     " + boleto.getCpfSacado());
-            } else {
+            } else if(boletoCaixa) {
                 cb.setTextMatrix(document.left() + 30, altura - 302);
                 cb.showText(JBoletoBean.soPrimeiraMaiuscula(boleto.getNomeSacado()));
                 //Cnpj
                 cb.setTextMatrix(document.left() + 423, altura - 303);
                 cb.showText(boleto.getCpfSacado());
+            } else if(boletoBradesco) {
+                cb.setFontAndSize(bfTextoSimples,5);
+                cb.setTextMatrix(document.left() + 30, altura - 299);
+                cb.showText(boleto.getNomeSacado().toUpperCase() + "     " + boleto.getCpfSacado());
+                cb.setFontAndSize(bfTextoCB,10);
+            }
+                        
+            if (!boletoBradesco) {
+                cb.setTextMatrix(document.left()+30,altura-312);
+                cb.showText(boleto.getEnderecoSacado());
+            } else {
+                cb.setTextMatrix(document.left()+30,altura-306);
+                cb.setFontAndSize(bfTextoSimples,5);
+                cb.showText(boleto.getEnderecoSacado().toUpperCase() + " " + boleto.getBairroSacado().toUpperCase());
+                cb.setTextMatrix(document.left() + 30, altura - 313);
+                cb.showText(boleto.getCidadeSacado().toUpperCase() + "/" + boleto.getUfSacado().toUpperCase() + " - " + boleto.getCepSacado());
+                cb.setTextMatrix(document.left() + 50, altura - 325);                
+                cb.showText(boleto.getCedente().toUpperCase() + "     " + boleto.getCnpjCedente());
+                cb.setTextMatrix(document.left() + 50, altura - 332);                
+                cb.showText(boleto.getEnderecoCedente().toUpperCase() + " - " + boleto.getBairroCedente().toUpperCase() + " - " +
+                        boleto.getCidadeCedente().toUpperCase() + "/" + boleto.getUfCedente().toUpperCase() + " - " + boleto.getCepCedente());
+                cb.setFontAndSize(bfTextoCB,10);
             }
             
-            cb.setTextMatrix(document.left()+30,altura-312);
-            cb.showText(boleto.getEnderecoSacado());
-            
-            if (!boletoCaixa) {
+            if (!boletoCaixa && !boletoBradesco) {
                 cb.setTextMatrix(document.left() + 30, altura - 322);
                 cb.showText(boleto.getCepSacado() + " " + boleto.getBairroSacado() + " - " + boleto.getCidadeSacado() + " " + boleto.getUfSacado());
-            } else {
+            } else if(boletoCaixa) {
                  //bairro - cidade
                  cb.setTextMatrix(document.left()+30,altura-322);
                  cb.showText(boleto.getBairroSacado() + " - " + boleto.getCidadeSacado());

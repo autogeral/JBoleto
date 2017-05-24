@@ -63,6 +63,19 @@ public class JBoletoBean {
     private String bairroSacado;
     private String cidadeSacado;
     private String ufSacado;
+    private String nomeCooperativa;
+    private String cnpjCooperativa;
+    private String enderecoCooperativa;
+    private String cepCooperativa;
+    private String bairroCooperativa;
+    private String cidadeCooperativa;
+    private String ufCooperativa;
+    private String cnpjCedente;
+    private String enderecoCedente;
+    private String cepCedente;
+    private String bairroCedente;
+    private String cidadeCedente;
+    private String ufCedente;
     private String especieDocumento;
     private String aceite;
     private String linhaDigitavel;
@@ -566,7 +579,201 @@ public class JBoletoBean {
     public void setUfSacado(String ufSacado) {
         this.ufSacado = ufSacado;
     }
-
+    /** 
+     * Retorna o nome da cooperativa
+     *
+     * @return Retorna o nome da cooperativa
+     */ 
+    public String getNomeCooperativa() {
+        return nomeCooperativa;
+    }
+    /**     
+     * @param nomeCooperativa
+     * Seta o nome da cooperativa.
+     */
+    public void setNomeCooperativa(String nomeCooperativa) {
+        this.nomeCooperativa = nomeCooperativa;
+    }
+    /** 
+     * Retorna o cnpj da cooperativa
+     *
+     * @return Retorna o cnpj da cooperativa
+     */ 
+    public String getCnpjCooperativa() {
+        return cnpjCooperativa;
+    }
+    /**     
+     * @param cnpjCooperativa
+     * Seta o cnpj da cooperativa.
+     */
+    public void setCnpjCooperativa(String cnpjCooperativa) {
+        this.cnpjCooperativa = cnpjCooperativa;
+    }
+    /** 
+     * Retorna o endereco da cooperativa
+     *
+     * @return Retorna o endereco da cooperativa
+     */ 
+    public String getEnderecoCooperativa() {
+        return enderecoCooperativa;
+    }
+    /**     
+     * @param enderecoCooperativa
+     * Seta o endereco da cooperativa.
+     */
+    public void setEnderecoCooperativa(String enderecoCooperativa) {
+        this.enderecoCooperativa = enderecoCooperativa;
+    }
+    /** 
+     * Retorna o cep da cooperativa
+     *
+     * @return Retorna o cep da cooperativa
+     */ 
+    public String getCepCooperativa() {
+        return cepCooperativa;
+    }
+    /**     
+     * @param cepCooperativa
+     * Seta o cep da cooperativa.
+     */
+    public void setCepCooperativa(String cepCooperativa) {
+        this.cepCooperativa = cepCooperativa;
+    }
+    /**
+     * Retorna o bairro da cooperativa
+     *
+     * @return Retorna o bairro da cooperativa
+     */     
+    public String getBairroCooperativa() {
+        return bairroCooperativa;
+    }
+    /**     
+     * @param bairroCooperativa
+     * Seta o bairro da cooperativa.
+     */
+    public void setBairroCooperativa(String bairroCooperativa) {
+        this.bairroCooperativa = bairroCooperativa;
+    }
+     /**
+     * Retorna a cidade da cooperativa
+     *
+     * @return Retorna a cidade da cooperativa
+     */     
+    public String getCidadeCooperativa() {
+        return cidadeCooperativa;
+    }
+    /**     
+     * @param cidadeCooperativa
+     * Seta a cidade da cooperativa.
+     */
+    public void setCidadeCooperativa(String cidadeCooperativa) {
+        this.cidadeCooperativa = cidadeCooperativa;
+    }
+    /**
+     * Retorna a uf da cooperativa
+     *
+     * @return Retorna a uf da cooperativa
+     */     
+    public String getUfCooperativa() {
+        return ufCooperativa;
+    }
+    /**     
+     * @param ufCooperativa
+     * Seta o Uf da cooperativa.
+     */
+    public void setUfCooperativa(String ufCooperativa) {
+        this.ufCooperativa = ufCooperativa;
+    }
+    /** 
+     * Retorna o cnpj do cedente
+     *
+     * @return Retorna o cnpj do cedente
+     */ 
+    public String getCnpjCedente() {
+        return cnpjCedente;
+    }
+    /**     
+     * @param cnpjCedente
+     * Seta o cnpj do cedente.
+     */
+    public void setCnpjCedente(String cnpjCedente) {
+        this.cnpjCedente = cnpjCedente;
+    }
+    /** 
+     * Retorna o endereco do Cedente
+     *
+     * @return Retorna o endereco do Cedente
+     */ 
+    public String getEnderecoCedente() {
+        return enderecoCedente;
+    }
+    /**     
+     * @param enderecoCedente
+     * Seta o endereco do cedente.
+     */
+    public void setEnderecoCedente(String enderecoCedente) {
+        this.enderecoCedente = enderecoCedente;
+    }
+    /** 
+     * Retorna o cep do cedente
+     *
+     * @return Retorna o cep do cedente
+     */ 
+    public String getCepCedente() {
+        return cepCedente;
+    }
+    /**     
+     * @param cepCedente
+     * Seta o cep do cedente.
+     */
+    public void setCepCedente(String cepCedente) {
+        this.cepCedente = cepCedente;
+    }
+    /**
+     * Retorna o bairro da cooperativa
+     *
+     * @return Retorna o bairro da cooperativa
+     */     
+    public String getBairroCedente() {
+        return bairroCedente;
+    }
+    /**     
+     * @param bairroCedente
+     * Seta o bairro do cedente.
+     */
+    public void setBairroCedente(String bairroCedente) {
+        this.bairroCedente = bairroCedente;
+    }
+     /**
+     * Retorna a cidade do cedente
+     *
+     * @return Retorna a cidade do cedente
+     */     
+    public String getCidadeCedente() {
+        return cidadeCedente;
+    }
+    /**     
+     * @param cidadeCedente
+     * Seta a cidade do cedente.
+     */
+    public void setCidadeCedente(String cidadeCedente) {
+        this.cidadeCedente = cidadeCedente;
+    }
+    /**
+     * Retorna a uf do cedente
+     *
+     * @return Retorna a uf do cedente
+     */     
+    public String getUfCedente() {
+        return ufCedente;
+    }
+    /**     
+     * @param ufCedente
+     * Seta o Uf do cedente.
+     */
+    public void setUfCedente(String ufCedente) {
+        this.ufCedente = ufCedente;
+    }
     /**
      * Retorna o valor da moeda
      * @return Retorna o valor da moeda
