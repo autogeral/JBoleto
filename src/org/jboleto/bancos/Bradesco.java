@@ -102,10 +102,11 @@ public class Bradesco implements Banco {
                 boleto.getMoeda() +
                 boleto.getFatorVencimento() +
                 boleto.getValorTitulo() +
-                boleto.getAgencia() +
-                boleto.getCarteira() +
-                boleto.getNossoNumero() +
-                getContaCorrenteFormatted() + "0";
+                getCampoLivre();
+//                boleto.getAgencia() +
+//                boleto.getCarteira() +
+//                boleto.getNossoNumero() +
+//                getContaCorrenteFormatted() + "0";
         
         return boleto.getDigitoCodigoBarras(campo);
     }
