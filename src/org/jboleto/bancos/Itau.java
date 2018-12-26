@@ -113,18 +113,18 @@ public class Itau implements Banco {
     }
     
     /**
-     * POSIÇÃO   TAMANHO  PICTURE   CONTEÚDO
-     * 01 a 03    03      9(03)     Código do Banco na Câmara de Compensação = '341' 
-     * 04 a 04    01      9(01)     Código da Moeda = '9'
-     * 05 a 05    01      9(01)     DAC código de Barras (Anexo 2) 
+     * POSICAO   TAMANHO  PICTURE   CONTEUDO
+     * 01 a 03    03      9(03)     Codigo do Banco na Cï¿½mara de Compensasao = '341' 
+     * 04 a 04    01      9(01)     Codigo da Moeda = '9'
+     * 05 a 05    01      9(01)     DAC codigo de Barras (Anexo 2) 
      * 06 a 09    04      9(04)     Fator de Vencimento (Anexo 6)
      * 10 a 19    10      9(08)V(2) Valor 
      * 20 a 22    03      9(03)     Carteira
-     * 23 a 30    08      9(08)     Nosso Número 
-     * 31 a 31    01      9(01)     DAC [Agência /Conta/Carteira/Nosso Número] (Anexo 4)
-     * 32 a 35    04      9(04)     N.º da Agência cedente 
-     * 36 a 40    05      9(05)     N.º da Conta Corrente
-     * 41 a 41    01      9(01)     DAC [Agência/Conta Corrente] (Anexo 3)
+     * 23 a 30    08      9(08)     Nosso Numero 
+     * 31 a 31    01      9(01)     DAC [Agencia /Conta/Carteira/Nosso Numero] (Anexo 4)
+     * 32 a 35    04      9(04)     N.da Agencia cedente 
+     * 36 a 40    05      9(05)     N.da Conta Corrente
+     * 41 a 41    01      9(01)     DAC [Agencia/Conta Corrente] (Anexo 3)
      * 42 a 44 03 9(03) Zeros
      * @return 
      */

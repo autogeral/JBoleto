@@ -159,7 +159,7 @@ public class Bradesco implements Banco {
 
     /**
      * Recupera a conta corrente no padrao especificado pelo banco
-     * @author Ces·rio Lange
+     * @author Ces√°rio Lange
      */
     public String getContaCorrenteFormatted() {
         String zeros = "0000000";

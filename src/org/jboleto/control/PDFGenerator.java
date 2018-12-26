@@ -284,7 +284,7 @@ public class PDFGenerator {
             // ALTERADO POR GLADYSTON
             cb.setTextMatrix(document.left()+410,altura-141);
             String agenciacodCendenteFormatada = banco.getAgenciaCodCedenteFormatted();
-            //Boleto da Caixa  usa formatação diferente 
+            //Boleto da Caixa  usa formatacao diferente 
             if(banco.getNumero().equals("104")){
                 agenciacodCendenteFormatada=agenciacodCendenteFormatada.replace(".000.00", "/");
             }
@@ -308,7 +308,7 @@ public class PDFGenerator {
             // ALTERADO POR GLADYSTON
             cb.setTextMatrix(document.left()+410,altura-162);
             String nossoNumeroformatado = banco.getNossoNumeroFormatted();
-            //Boleto da Caixa  usa formatação diferente 
+            //Boleto da Caixa  usa formatacao diferente 
             if(banco.getNumero().equals("104")){
                 nossoNumeroformatado=nossoNumeroformatado.replace(".", "/");
             }            

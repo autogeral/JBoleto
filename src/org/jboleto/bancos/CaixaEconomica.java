@@ -31,14 +31,16 @@ public class CaixaEconomica implements Banco {
 
     /**
      * Metdodo responsavel por resgatar o numero do banco, coloque no return o codigo do seu banco
+     * @return 104
      */
+    @Override
     public String getNumero() {
         return "104";
     }
 
     /**
-     * Retorna  Identificador da Emissão do Boleto
-     * Segundo a documentação da Caixa Economica (4-Beneficiário) 
+     * Retorna  Identificador da Emissao do Boleto
+     * Segundo a documentaÃ§Ã£o da Caixa Economica (4-Beneficiario) 
      */
     public int getResponsavelEmissaoBoleto() {
         return (boleto.getCarteira().equals("1") ? 4 : responsavelEmissaoBoleto);
@@ -203,12 +205,12 @@ public class CaixaEconomica implements Banco {
         int multiplicador = 9;
 
         /*
-         1º PASSO 
-         Aplicar o módulo 11, o primeiro dígito da direita para a esquerda será
+         1ï¿½ PASSO 
+         Aplicar o mï¿½dulo 11, o primeiro dï¿½gito da direita para a esquerda serï¿½
          multiplicado por 2, o segundo, por 3 e 
-         assim sucessivamente até o 9;
+         assim sucessivamente atï¿½ o 9;
          */
-        //2°Passo, Somar o resultado da multiplicação: 
+        //2ï¿½Passo, Somar o resultado da multiplicaï¿½ï¿½o: 
         System.out.println();
         int soma = 0;
         while (i < aux.length()) {
@@ -225,11 +227,11 @@ public class CaixaEconomica implements Banco {
         }
 
         /*
-         3º PASSO 
+         3ï¿½ PASSO 
          Dividir o Total da Soma por 11 
          Obs: Quando o Total da Soma for MENOR que o quociente (no caso 11), 
-         pular o 3º PASSO, ou seja, o Total 
-         da Soma deverá ser diminuído diretamente do quociente, 
+         pular o 3ï¿½ PASSO, ou seja, o Total 
+         da Soma deverï¿½ ser diminuï¿½do diretamente do quociente, 
          obtendo-se o DV como resultado. 
          */
         int resto = 0;
@@ -238,10 +240,10 @@ public class CaixaEconomica implements Banco {
         }
 
         /*
-         4º PASSO 
-         Subtrair o resto da divisão de 11.
-         Se o RESULTADO for maior que 9 (nove) o DV será 0 (zero), 
-         caso contrário o RESULTADO será o DV
+         4ï¿½ PASSO 
+         Subtrair o resto da divisï¿½o de 11.
+         Se o RESULTADO for maior que 9 (nove) o DV serï¿½ 0 (zero), 
+         caso contrï¿½rio o RESULTADO serï¿½ o DV
          */
         int dv = 11 - resto;
         if (dv > 9) {
