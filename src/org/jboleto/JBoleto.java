@@ -22,6 +22,7 @@ import org.jboleto.bancos.BancoReal;
 import org.jboleto.bancos.Bradesco;
 import org.jboleto.bancos.CaixaEconomica;
 import org.jboleto.bancos.Hsbc;
+import org.jboleto.bancos.Inter;
 import org.jboleto.bancos.Itau;
 import org.jboleto.bancos.NossaCaixa;
 import org.jboleto.bancos.Santander;
@@ -46,6 +47,7 @@ public class JBoleto {
     public static final int NOSSACAIXA = 7;
     public static final int SANTANDER = 8;
     public static final int SANTANDER_BANESPA = 9;
+    public static final int INTER = 10;
     
     private PDFGenerator generator;
     
@@ -94,6 +96,8 @@ public class JBoleto {
         }else if (banco==JBoleto.SANTANDER_BANESPA){
             bancoBean = new SantanderBanespa(boleto);
 
+        }else if (banco==JBoleto.INTER){
+            bancoBean = new Inter(boleto);
         }
                 
         /**
