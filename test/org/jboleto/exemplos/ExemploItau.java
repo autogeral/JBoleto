@@ -22,7 +22,7 @@ class ExemploItau {
 
         jBoletoBean.setAceite("N");
         jBoletoBean.setEspecieDocumento("DM");
-        jBoletoBean.setCedente("AUTO GERAL DE ITU LTDA");
+        jBoletoBean.setCedente("AUTO GERAL AUTOPECAS DE ITU LTDA");
         jBoletoBean.setCarteira("109");
 
         jBoletoBean.setNomeSacado("Larissa Antunes de Camargo");
