@@ -23,7 +23,7 @@ class ExemploItau {
         jBoletoBean.setAceite("N");
         jBoletoBean.setEspecieDocumento("DM");
         jBoletoBean.setCedente("AUTO GERAL AUTOPECAS DE ITU LTDA");
-        jBoletoBean.setCarteira("109");
+        jBoletoBean.setCarteira("110");
 
         jBoletoBean.setNomeSacado("Larissa Antunes de Camargo");
         jBoletoBean.setEnderecoSacado("Rua San Marino, 323");
@@ -40,7 +40,7 @@ class ExemploItau {
         descricoes.add("Boleto de teste para homologação");
         jBoletoBean.setDescricoes(descricoes);
 
-        jBoletoBean.setDataVencimento("01/09/2021");
+        jBoletoBean.setDataVencimento("01/05/2002");
         jBoletoBean.setInstrucao1("APOS O VENCIMENTO COBRAR MULTA DE 2%");
         jBoletoBean.setInstrucao2("APOS O VENCIMENTO COBRAR R$ 0,50 POR DIA DE ATRASO");
         jBoletoBean.setInstrucao3("");
@@ -59,7 +59,7 @@ class ExemploItau {
         jBoletoBean.setValorBoleto("123.45");
 
         
-        String valor = jBoletoBean.getModulo11("3419204600000273719028203356661245780020102", 2);
+        String valor = jBoletoBean.getModulo11("3419166700000123451101234567880057123457000", 9);
         if(valor.equals("6")){
             System.out.println("Dv do codigo de barras esta correto");
         }else{
