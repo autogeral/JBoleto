@@ -17,21 +17,21 @@ class ExemploItau {
 
     public static void main(String args[]) {
         JBoletoBean jBoletoBean = new JBoletoBean();
-        jBoletoBean.setDataDocumento("23/08/2021");
-        jBoletoBean.setDataProcessamento("23/08/2021");
+        jBoletoBean.setDataDocumento("09/09/2021");
+        jBoletoBean.setDataProcessamento("09/09/2021");
 
         jBoletoBean.setAceite("N");
         jBoletoBean.setEspecieDocumento("DM");
         jBoletoBean.setCedente("AUTO GERAL AUTOPECAS DE ITU LTDA");
-        jBoletoBean.setCarteira("110");
+        jBoletoBean.setCarteira("109");
 
-        jBoletoBean.setNomeSacado("Larissa Antunes de Camargo");
-        jBoletoBean.setEnderecoSacado("Rua San Marino, 323");
-        jBoletoBean.setBairroSacado("Jd Saltense");
+        jBoletoBean.setNomeSacado("Auto Geral AutoPecas LTDA");
+        jBoletoBean.setEnderecoSacado("AV. Dom Pedro II, 1090");
+        jBoletoBean.setBairroSacado("Centro");
         jBoletoBean.setCidadeSacado("Salto");
         jBoletoBean.setUfSacado("SP");
-        jBoletoBean.setCepSacado("13327-271");
-        jBoletoBean.setCpfSacado("500.683.354-64");
+        jBoletoBean.setCepSacado("13320-903");
+        jBoletoBean.setCpfSacado("05.437.537/0002-18");
 
         jBoletoBean.setLocalPagamento("ATE O VENCIMENTO, PREFERENCIALMENTE NO ITAÚ");
         jBoletoBean.setLocalPagamento2("APOS O VENCIMENTO, SOMENTE NO ITAÚ");
@@ -40,23 +40,23 @@ class ExemploItau {
         descricoes.add("Boleto de teste para homologação");
         jBoletoBean.setDescricoes(descricoes);
 
-        jBoletoBean.setDataVencimento("01/05/2002");
-        jBoletoBean.setInstrucao1("APOS O VENCIMENTO COBRAR MULTA DE 2%");
-        jBoletoBean.setInstrucao2("APOS O VENCIMENTO COBRAR R$ 0,50 POR DIA DE ATRASO");
+        jBoletoBean.setDataVencimento("30/09/2021");
+        jBoletoBean.setInstrucao1("NAO RECEBER APOS O QUINTO DIA UTIL");
+        jBoletoBean.setInstrucao2("APOS O VENCIMENTO COBRAR R$ 0,04 POR DIA DE ATRASO");
         jBoletoBean.setInstrucao3("");
         jBoletoBean.setInstrucao4("");
 
         
-        jBoletoBean.setAgencia("0057");
-        jBoletoBean.setContaCorrente("12345");
+        jBoletoBean.setAgencia("0278");
+        jBoletoBean.setContaCorrente("92471");
         jBoletoBean.setDvContaCorrente("7");
         //Documentacao especifica 5 numeros
         jBoletoBean.setCodCliente("00000");
 
-        jBoletoBean.setNossoNumero("12345678", 8);
+        jBoletoBean.setNossoNumero("00000001", 8);
         //especificacao para carteira 198 sao 7 numeros
-        jBoletoBean.setNoDocumento("0000001");
-        jBoletoBean.setValorBoleto("123.45");
+        jBoletoBean.setNoDocumento("1");
+        jBoletoBean.setValorBoleto("20");
 
         
         String valor = jBoletoBean.getModulo11("3419166700000123451101234567880057123457000", 9);
