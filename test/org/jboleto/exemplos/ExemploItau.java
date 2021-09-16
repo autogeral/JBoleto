@@ -53,7 +53,7 @@ class ExemploItau {
         //Documentacao especifica 5 numeros
         jBoletoBean.setCodCliente("00000");
 
-        jBoletoBean.setNossoNumero("00000001", 8);
+        jBoletoBean.setNossoNumero("00000003", 8);
         //especificacao para carteira 198 sao 7 numeros
         jBoletoBean.setNoDocumento("1");
         jBoletoBean.setValorBoleto("20");
