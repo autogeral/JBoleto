@@ -206,9 +206,9 @@ public class Itau implements Banco {
      */
     @Override
     public String getNossoNumeroFormatted() {
-        return (boleto.getCarteira() + "/" + 
-                boleto.getNossoNumero().substring(0, 8) + "-" + 
-                (boleto.getNossoNumero().length() < tamanhoNossoNumero ? 
-                getDacNossoNumero() : boleto.getNossoNumero().substring(8, 9)));
+        return (boleto.getCarteira() + "/"
+                + boleto.getNossoNumero().substring(0, 8) + "-"
+                + (boleto.getNossoNumero().length() < tamanhoNossoNumero
+                ? getDacNossoNumero() : boleto.getNossoNumero().substring(8, 9)));
     }
 }
