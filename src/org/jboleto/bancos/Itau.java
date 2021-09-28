@@ -23,6 +23,7 @@ import org.jboleto.JBoletoBean;
 public class Itau implements Banco {
     
     JBoletoBean boleto;
+    private final int tamanhoNossoNumero = 9;
     
     @Override
     public String getNumero() {
@@ -103,7 +104,8 @@ public class Itau implements Banco {
     private String getCodigoBarrasSemDac() {
         return getNumero() + String.valueOf(boleto.getMoeda()) +
                 boleto.getFatorVencimento() + boleto.getValorTitulo() + String.valueOf(boleto.getCarteira()) +
-                String.valueOf(boleto.getNossoNumero()) + getDacNossoNumero() + completaAgencia() +
+                String.valueOf(boleto.getNossoNumero()) + 
+                (boleto.getNossoNumero().length() < tamanhoNossoNumero ? getDacNossoNumero() : "") + completaAgencia() +
                 String.valueOf(boleto.getAgencia()) + boleto.getContaCorrente() + boleto.getDvContaCorrente() + "000";
     }
     
@@ -204,7 +206,9 @@ public class Itau implements Banco {
      */
     @Override
     public String getNossoNumeroFormatted() {
-        return (boleto.getCarteira() + "/" + boleto.getNossoNumero().substring(0, 8) + "-" + getDacNossoNumero());
+        return (boleto.getCarteira() + "/" + 
+                boleto.getNossoNumero().substring(0, 8) + "-" + 
+                (boleto.getNossoNumero().length() < tamanhoNossoNumero ? 
+                getDacNossoNumero() : boleto.getNossoNumero().substring(8, 9)));
     }
-    
 }
