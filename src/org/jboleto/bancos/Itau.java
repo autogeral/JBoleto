@@ -74,14 +74,17 @@ public class Itau implements Banco {
     
     private String getCampo2() {
         String campo = boleto.getNossoNumero().substring(2) + 
-                String.valueOf(getDacNossoNumero()) + 
-                String.valueOf(boleto.getAgencia()).substring(0,3);
+                (boleto.getNossoNumero().length() < tamanhoNossoNumero 
+                ? String.valueOf(getDacNossoNumero()) 
+                : "") + 
+                String.valueOf(completaAgencia() + boleto.getAgencia()).substring(0,3);
         
         return boleto.getDigitoCampo(campo,1);
     }
     
     private String getCampo3() {
-        String campo = String.valueOf(boleto.getAgencia()).substring(3) + boleto.getContaCorrente() + boleto.getDvContaCorrente() + "000";
+        String campo = String.valueOf(completaAgencia() + boleto.getAgencia()).substring(3) 
+                + boleto.getContaCorrente() + boleto.getDvContaCorrente() + "000";
         
         return boleto.getDigitoCampo(campo,1);
     }
