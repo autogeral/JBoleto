@@ -214,11 +214,11 @@ public class PDFGenerator {
             cb.setTextMatrix(document.left()+400,altura);
             //cb.showText(formatter.valueToString(new Double(boleto.getValorBoleto())));
             if (!boletoBradesco) {
-                cb.showText(formatter.valueToString(new Double(boleto.getValorCobrado().replace(",", "."))));
+                cb.showText(formatter.valueToString(Double.valueOf(boleto.getValorCobrado().replace(",", "."))));
             } else {
-                cb.showText(formatter.valueToString(new Double(boleto.getValorBoleto().replace(",", "."))));
+                cb.showText(formatter.valueToString(Double.valueOf(boleto.getValorBoleto().replace(",", "."))));
                 cb.setTextMatrix(document.left()+400,altura - 19);
-                cb.showText(formatter.valueToString(new Double(boleto.getValorCobrado().replace(",", "."))));
+                cb.showText(formatter.valueToString(Double.valueOf(boleto.getValorCobrado().replace(",", "."))));
             }
             
             // ALTERADO POR GLADYSTON
@@ -322,11 +322,11 @@ public class PDFGenerator {
             cb.showText("R$");
             
             cb.setTextMatrix(document.left()+430,altura-185);
-            cb.showText(formatter.valueToString(new Double(boleto.getValorBoleto().replace(",", "."))));
+            cb.showText(formatter.valueToString(Double.valueOf(boleto.getValorBoleto().replace(",", "."))));
 
             if (boleto.getDescontoAbatimento() != null && !"".equals(boleto.getDescontoAbatimento())) {
                 cb.setTextMatrix(document.left() + 430, altura - 206);
-                cb.showText(formatter.valueToString(new Double(boleto.getDescontoAbatimento().replace(",", "."))));
+                cb.showText(formatter.valueToString(Double.valueOf(boleto.getDescontoAbatimento().replace(",", "."))));
             }
             
 //            if (boleto.getDescontoAbatimento() != null && !"".equals(boleto.getDescontoAbatimento())) {
@@ -336,17 +336,17 @@ public class PDFGenerator {
 
             if (boleto.getMoraMulta() != null && !"".equals(boleto.getMoraMulta().replace(",", "."))) {
                 cb.setTextMatrix(document.left() + 430, altura - 248);
-                cb.showText(formatter.valueToString(new Double(boleto.getMoraMulta().replace(",", "."))));
+                cb.showText(formatter.valueToString(Double.valueOf(boleto.getMoraMulta().replace(",", "."))));
             }
 
             if (boleto.getAcrescimo() != null && !"".equals(boleto.getAcrescimo())) {
                 cb.setTextMatrix(document.left() + 430, altura - 269);
-                cb.showText(formatter.valueToString(new Double(boleto.getAcrescimo().replace(",", "."))));
+                cb.showText(formatter.valueToString(Double.valueOf(boleto.getAcrescimo().replace(",", "."))));
             }
 
             if (boleto.getValorCobrado() != null && !"".equals(boleto.getValorCobrado())) {
                 cb.setTextMatrix(document.left() + 430, altura - 290);
-                cb.showText(formatter.valueToString(new Double(boleto.getValorCobrado().replace(",", "."))));
+                cb.showText(formatter.valueToString(Double.valueOf(boleto.getValorCobrado().replace(",", "."))));
             }
 
             cb.setFontAndSize(bfTextoSimples, 6);

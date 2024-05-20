@@ -12,6 +12,7 @@
 package org.jboleto;
 
 import java.text.DecimalFormat;
+import java.text.ParseException;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.List;
@@ -947,8 +948,8 @@ public class JBoletoBean {
         String valor = "";
 
         try {
-            valor = formatter.valueToString(new Double(getValorCobrado()));
-        } catch (Exception ex) {
+            valor = formatter.valueToString(Double.valueOf(getValorCobrado()));
+        } catch (NumberFormatException | ParseException ex) {
             ex.printStackTrace(System.err);
         }
 
@@ -959,9 +960,9 @@ public class JBoletoBean {
     }
 
     public String getValorCobrado() {
-        double valor = new Double(getValorBoleto().replace(",", "."));
-        valor += (moraMulta != null && !"".equals(moraMulta) ? new Double(moraMulta.replace(",", ".")) : 0);
-        valor -= (descontoAbatimento != null && !"".equals(descontoAbatimento) ? new Double(descontoAbatimento.replace(",", ".")) : 0);
+        double valor = Double.parseDouble(getValorBoleto().replace(",", "."));
+        valor += (moraMulta != null && !"".equals(moraMulta) ? Double.valueOf(moraMulta.replace(",", ".")) : 0);
+        valor -= (descontoAbatimento != null && !"".equals(descontoAbatimento) ? Double.valueOf(descontoAbatimento.replace(",", ".")) : 0);
         return Double.toString(valor);
     }
 
