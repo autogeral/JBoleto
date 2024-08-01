@@ -12,11 +12,13 @@
 
 package org.jboleto;
 
+import com.lowagie.text.DocumentException;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.text.ParseException;
 import org.jboleto.bancos.BancoBrasil;
 import org.jboleto.bancos.BancoReal;
 import org.jboleto.bancos.Bradesco;
@@ -52,7 +54,7 @@ public class JBoleto {
     /**
      * Metodo responsavel por adicionar um boleto na fila para a geracao e identificando o seu respectivo banco
      */
-    public void addBoleto(JBoletoBean boleto, int banco){
+    public void addBoleto(JBoletoBean boleto, int banco) throws DocumentException, IOException, ParseException {
         
         Banco bancoBean = null;
         
