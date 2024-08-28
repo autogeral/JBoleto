@@ -11,8 +11,10 @@
  */
 package org.jboleto.exemplos;
 
+import com.lowagie.text.DocumentException;
 import java.io.File;
 import java.io.IOException;
+import java.text.ParseException;
 import java.util.Vector;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -93,17 +95,17 @@ class ExemploSantanderBanespa {
         }
         JBoleto jBoleto = new JBoleto();
 
-        jBoleto.addBoleto(jBoletoBean, JBoleto.SANTANDER_BANESPA);
-//        SantanderBanespa bancoBean = new SantanderBanespa(jBoletoBean);
-//        System.out.println(bancoBean.getCodigoBarras());
 
         File file = new File("santanderBanespaComLogo.pdf");
         
         try {
+            jBoleto.addBoleto(jBoletoBean, JBoleto.SANTANDER_BANESPA);
+//        SantanderBanespa bancoBean = new SantanderBanespa(jBoletoBean);
+//        System.out.println(bancoBean.getCodigoBarras());
             jBoleto.writeToFile(file);
             java.awt.Desktop desktop = java.awt.Desktop.getDesktop();
             desktop.browse(file.toURI());
-        } catch (IOException ex) {
+        } catch (IOException | DocumentException | ParseException ex) {
             Logger.getLogger(ExemploSantanderBanespa.class.getName()).log(Level.SEVERE, null, ex);
         }
         

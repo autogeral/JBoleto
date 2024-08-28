@@ -11,7 +11,9 @@
  */
 package org.jboleto.exemplos;
 
+import com.lowagie.text.DocumentException;
 import java.io.IOException;
+import java.text.ParseException;
 import java.util.Vector;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -73,10 +75,10 @@ class ExemploSantander {
 
         JBoleto jBoleto = new JBoleto();
 
-        jBoleto.addBoleto(jBoletoBean, JBoleto.SANTANDER);
         try {
+            jBoleto.addBoleto(jBoletoBean, JBoleto.SANTANDER);
             jBoleto.writeToFile("santander.pdf");
-        } catch (IOException ex) {
+        } catch (IOException | DocumentException | ParseException ex) {
             Logger.getLogger(ExemploSantander.class.getName()).log(Level.SEVERE, null, ex);
         }
 

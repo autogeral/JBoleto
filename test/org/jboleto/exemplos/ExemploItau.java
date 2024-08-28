@@ -1,8 +1,10 @@
 
 package org.jboleto.exemplos;
 
+import com.lowagie.text.DocumentException;
 import java.io.File;
 import java.io.IOException;
+import java.text.ParseException;
 import java.util.Vector;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -33,11 +35,11 @@ class ExemploItau {
         jBoletoBean.setCepSacado("13320-903");
         jBoletoBean.setCpfSacado("05.437.537/0002-18");
 
-        jBoletoBean.setLocalPagamento("ATE O VENCIMENTO, PREFERENCIALMENTE NO ITAÚ");
-        jBoletoBean.setLocalPagamento2("APOS O VENCIMENTO, SOMENTE NO ITAÚ");
+        jBoletoBean.setLocalPagamento("ATE O VENCIMENTO, PREFERENCIALMENTE NO ITAï¿½");
+        jBoletoBean.setLocalPagamento2("APOS O VENCIMENTO, SOMENTE NO ITAï¿½");
 
         Vector descricoes = new Vector();
-        descricoes.add("Boleto de teste para homologação");
+        descricoes.add("Boleto de teste para homologaï¿½ï¿½o");
         jBoletoBean.setDescricoes(descricoes);
 
         jBoletoBean.setDataVencimento("30/09/2021");
@@ -67,16 +69,16 @@ class ExemploItau {
         }
         
         JBoleto jBoleto = new JBoleto();
-        jBoleto.addBoleto(jBoletoBean, JBoleto.ITAU);      
-
+        
         File file = new File("boletoItauTeste.pdf");
         
         try {
+            jBoleto.addBoleto(jBoletoBean, JBoleto.ITAU);
             jBoleto.writeToFile(file);
             java.awt.Desktop desktop = java.awt.Desktop.getDesktop();
             desktop.browse(file.toURI());
-        } catch (IOException ex) {
-            Logger.getLogger(ExemploItau.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException | DocumentException | ParseException ex) {
+            Logger.getLogger(ExemploReal.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 }
