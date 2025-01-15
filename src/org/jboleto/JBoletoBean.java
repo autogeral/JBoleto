@@ -101,13 +101,17 @@ public class JBoletoBean {
         String mes = data[1];
         String ano = data[2];
 
-        Calendar dataBase = new GregorianCalendar(1997, Calendar.OCTOBER, 7);
+//        Calendar dataBase = new GregorianCalendar(1997, Calendar.OCTOBER, 7);
+        Calendar dataBase = new GregorianCalendar(2000, Calendar.JULY, 3);
         Calendar vencimento = new GregorianCalendar(Integer.parseInt(ano), Integer.parseInt(mes) - 1, Integer.parseInt(dia));
         long diferenca = vencimento.getTimeInMillis() - dataBase.getTimeInMillis();
 
         long diferencaDias = diferenca / (24 * 60 * 60 * 1000);
+        
+        // ajustando o ciclo do fator de vencimento (1000 a 9999) de acordo com a regra 
+        long fator = (diferencaDias % 9000) + 1000;
 
-        return diferencaDias;
+        return fator;
     }
     
     public static String soPrimeiraMaiuscula (String astring) {
