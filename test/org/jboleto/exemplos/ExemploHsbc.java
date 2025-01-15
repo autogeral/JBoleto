@@ -11,7 +11,9 @@
  */
 package org.jboleto.exemplos;
 
+import com.lowagie.text.DocumentException;
 import java.io.IOException;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
@@ -73,10 +75,10 @@ class ExemploHsbc {
         JBoleto jBoleto = new JBoleto();
 
 
-        jBoleto.addBoleto(jBoletoBean, JBoleto.HSBC);
         try {
+            jBoleto.addBoleto(jBoletoBean, JBoleto.HSBC);
             jBoleto.writeToFile("hsbc.pdf");
-        } catch (IOException ex) {
+        } catch (IOException | DocumentException | ParseException ex) {
             Logger.getLogger(ExemploHsbc.class.getName()).log(Level.SEVERE, null, ex);
         }
 

@@ -9,32 +9,32 @@
  * Veja a Licenca Publica Geral Reduzida GNU para maiores detalhes. 
  * A licenca se encontra no arquivo lgpl-br.txt 
  */
-
 package org.jboleto.exemplos;
 
+import com.lowagie.text.DocumentException;
 import java.io.IOException;
+import java.text.ParseException;
 import java.util.Vector;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.jboleto.JBoleto;
 import org.jboleto.JBoletoBean;
 
-
 /**
  * @author Fabio Souza
  */
 class ExemploReal {
-        
-	public static void main(String args[]) {
-		JBoletoBean jBoletoBean = new JBoletoBean();
-		
-		jBoletoBean.setDataDocumento("31/05/2007");
-        jBoletoBean.setDataProcessamento("31/05/2007");      
-            
-        jBoletoBean.setCedente("KOBI SYSTEM LTDA ME");  
+
+    public static void main(String args[]) {
+        JBoletoBean jBoletoBean = new JBoletoBean();
+
+        jBoletoBean.setDataDocumento("31/05/2007");
+        jBoletoBean.setDataProcessamento("31/05/2007");
+
+        jBoletoBean.setCedente("KOBI SYSTEM LTDA ME");
 
         jBoletoBean.setNomeSacado("Teste");
-        jBoletoBean.setEnderecoSacado("Rua teste");        
+        jBoletoBean.setEnderecoSacado("Rua teste");
         jBoletoBean.setBairroSacado("XXXX");
         jBoletoBean.setCidadeSacado("Rio de Janeiro");
         jBoletoBean.setUfSacado("RJ");
@@ -43,14 +43,14 @@ class ExemploReal {
         jBoletoBean.setCarteira("57");
         jBoletoBean.setLocalPagamento("ATE O VENCIMENTO, PREFERENCIALMENTE NO BANCO REAL ABN AMRO");
         jBoletoBean.setLocalPagamento2("APOS O VENCIMENTO, SOMENTE NO BANCO REAL ABN AMRO");
-        
+
         Vector descricoes = new Vector();
         descricoes.add("Hospedagem I - teste descricao1 - R$ 39,90");
         descricoes.add("Manutencao - teste ricao2 - R$ 32,90");
         descricoes.add("Sistema - teste ssssde descricao3 - R$ 45,90");
         descricoes.add("Extra - teste de descricao4 - R$ 78,90");
         jBoletoBean.setDescricoes(descricoes);
-        
+
         jBoletoBean.setInstrucao1("APOS O VENCIMENTO COBRAR MULTA DE 2%");
         jBoletoBean.setInstrucao2("APOS O VENCIMENTO COBRAR R$ 0,50 POR DIA DE ATRASO");
         jBoletoBean.setInstrucao3("Inclusao de mais uma linha");
@@ -61,20 +61,20 @@ class ExemploReal {
         jBoletoBean.setAgencia("0957");
         jBoletoBean.setContaCorrente("5003709");
         jBoletoBean.setDvContaCorrente("6");
-        
-        jBoletoBean.setNossoNumero("3020",13);
+
+        jBoletoBean.setNossoNumero("3020", 13);
         jBoletoBean.setNoDocumento("3020");
-        jBoletoBean.setValorBoleto("35.00");                
+        jBoletoBean.setValorBoleto("35.00");
         jBoletoBean.setDataVencimento("02/10/2007");
-        
-        JBoleto jBoleto = new JBoleto();        
-        jBoleto.addBoleto(jBoletoBean,JBoleto.BANCO_REAL);
-        
-            try {	        
-                jBoleto.writeToFile("real.pdf");
-            } catch (IOException ex) {
-                Logger.getLogger(ExemploReal.class.getName()).log(Level.SEVERE, null, ex);
-            }
-            
-	}
+
+        JBoleto jBoleto = new JBoleto();
+
+        try {
+            jBoleto.addBoleto(jBoletoBean, JBoleto.BANCO_REAL);
+            jBoleto.writeToFile("real.pdf");
+        } catch (IOException | DocumentException | ParseException ex) {
+            Logger.getLogger(ExemploReal.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+    }
 }

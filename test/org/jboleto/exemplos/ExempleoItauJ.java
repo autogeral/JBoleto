@@ -2,10 +2,11 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package org.jboleto.exemplos;
 
+import com.lowagie.text.DocumentException;
 import java.io.IOException;
+import java.text.ParseException;
 import java.util.Vector;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -13,7 +14,8 @@ import org.jboleto.JBoleto;
 import org.jboleto.JBoletoBean;
 
 /**
- *30/05/2011 10:10:35
+ * 30/05/2011 10:10:35
+ *
  * @author talentos
  */
 public class ExempleoItauJ {
@@ -44,7 +46,6 @@ public class ExempleoItauJ {
         jBoletoBean.setDescricoes(descricoes);
 
 //        jBoletoBean.setImagemMarketing("/home/fabio/template_logo.png");
-
         jBoletoBean.setDataVencimento("31/08/2010");
         jBoletoBean.setInstrucao1("APOS O VENCIMENTO COBRAR MULTA DE 2%");
         jBoletoBean.setInstrucao2("APOS O VENCIMENTO COBRAR R$ 0,50 POR DIA DE ATRASO");
@@ -64,11 +65,11 @@ public class ExempleoItauJ {
 
         JBoleto jBoleto = new JBoleto();
 
-        jBoleto.addBoleto(jBoletoBean, JBoleto.ITAU);
         try {
+            jBoleto.addBoleto(jBoletoBean, JBoleto.ITAU);
             jBoleto.writeToFile("itauJ.pdf");
-        } catch (IOException ex) {
-            Logger.getLogger(ExempleoItauJ.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException | DocumentException | ParseException ex) {
+            Logger.getLogger(ExemploReal.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
