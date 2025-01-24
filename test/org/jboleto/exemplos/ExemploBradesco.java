@@ -11,8 +11,10 @@
  */
 package org.jboleto.exemplos;
 
+import com.lowagie.text.DocumentException;
 import java.io.IOException;
 import java.text.NumberFormat;
+import java.text.ParseException;
 import java.util.Locale;
 import java.util.Vector;
 import java.util.logging.Level;
@@ -43,7 +45,7 @@ class ExemploBradesco {
         jBoletoBean.setCepSacado("13310-440");
         jBoletoBean.setCpfSacado("359.821.558-45");
 
-        jBoletoBean.setLocalPagamento("Pagável preferencialmente na Rede Bradesco ou Bradesco Expresso");
+        jBoletoBean.setLocalPagamento("Pagï¿½vel preferencialmente na Rede Bradesco ou Bradesco Expresso");
 
         Vector descricoes = new Vector();
         descricoes.add("Teste");
@@ -62,8 +64,8 @@ class ExemploBradesco {
         if (porcentagemMultaBoleto < 1) {
             porcentagemMultaBoleto *= 100;
         }
-        jBoletoBean.setInstrucao1("Após o vencimento Mora dia R$ " + nf.format(valorMora));
-        jBoletoBean.setInstrucao2("Após o vencimento, multa de  " + nf.format(porcentagemMultaBoleto) + "%");
+        jBoletoBean.setInstrucao1("Apï¿½s o vencimento Mora dia R$ " + nf.format(valorMora));
+        jBoletoBean.setInstrucao2("Apï¿½s o vencimento, multa de  " + nf.format(porcentagemMultaBoleto) + "%");
         jBoletoBean.setInstrucao3("");
         jBoletoBean.setInstrucao4("Controle Participante: " + String.valueOf(nossoNumero));
 
@@ -81,11 +83,11 @@ class ExemploBradesco {
 
         JBoleto jBoleto = new JBoleto();
 
-        jBoleto.addBoleto(jBoletoBean, JBoleto.BRADESCO);
         try {
+            jBoleto.addBoleto(jBoletoBean, JBoleto.BRADESCO);
             jBoleto.writeToFile("bradesco.pdf");
-        } catch (IOException ex) {
-            Logger.getLogger(ExemploBradesco.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException | DocumentException | ParseException ex) {
+            Logger.getLogger(ExemploReal.class.getName()).log(Level.SEVERE, null, ex);
         }
 
     }
